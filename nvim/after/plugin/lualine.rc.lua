@@ -18,7 +18,7 @@ lualine.setup {
       path = 0 -- 0 = just filename, 1 = relative path, 2 = absolute path
     }},
     lualine_x = {
-      { 'diagnostics', sources = {"nvim_diagnostics"}, symbols = {error = ' ', warn = ' ', info = ' ', hint = ' '} },
+      { 'diagnostics', sources = {"nvim_lsp"}, symbols = {error = ' ', warn = ' ', info = ' ', hint = ' '} },
       'encoding',
       'filetype'
     },
