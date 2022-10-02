@@ -16,9 +16,14 @@
 #
 # resolver: ./custom-snapshot.yaml
 # resolver: https://example.com/snapshots/2018-01-01.yaml
-resolver:
-  url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/19/21.yaml
+resolver: lts-19.24
 
+# dependencies:
+#   - base >= 4.7 && < 5
+#   - containers > 0.6
+
+# dependencies:
+#   - base >= 4.7 && 5
 # User packages to be built.
 # Various formats can be used as shown in the example below.
 #
@@ -29,21 +34,27 @@ resolver:
 #   - auto-update
 #   - wai
 packages:
-- xmonad
-- xmonad-contrib
-- xmobar
+  - xmonad
+  - xmonad-contrib
+  - xmobar
 # Dependency packages to be pulled from upstream that are not in the resolver.
 # These entries can reference officially published versions as well as
 # forks / in-progress versions pinned to a git hash. For example:
 #
+
 extra-deps:
-- netlink-1.1.1.0@sha256:d83424b5ba9921191449e4b1f53c7cba7f4375f2c55a9b737c77e982e1f40d00,3689
+  - netlink-1.1.1.0@sha256:d83424b5ba9921191449e4b1f53c7cba7f4375f2c55a9b737c77e982e1f40d00,3689
+  - X11-1.10.3 
+  - extra-1.7.12
+
+# - base-4.15.1.0
 # - git: https://github.com/commercialhaskell/stack.git
 #   commit: e7b331f14bcffb8367cd58fbfc8b40ec7642100a
 #
 # extra-deps: []
 
 # Override default flag values for local packages and extra-deps
+
 flags:
   xmobar:
     all_extensions: true

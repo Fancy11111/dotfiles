@@ -15,9 +15,10 @@ alias clock="tty-clock -c"
 #alias thought="fortune | pokemonthink"
 #alias strat="aow | pokemonsay"
 alias nvim-config="cd ~/.config/nvim && nvim ."
-alias xmonad-config="cd ~/.config/xmonad &6 nvim ."
+alias xmonad-config="cd ~/.config/xmonad && nvim ."
 alias fish-config="cd ~/.config/fish && nvim ."
 alias vue-language-server="vls"
+alias g="git"
 
 bass export NVM_DIR=~/.nvm
 
