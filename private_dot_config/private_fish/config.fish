@@ -27,7 +27,7 @@ bass source /usr/share/nvm/bash_completion
 bass source /usr/share/nvm/install-nvm-exec
 
 # set PATH ~/.nvm/versions/node/v16.17.0/lib/node_modules/npm  $PATH
-set PATH "~/.nvm/versions/node/$(nvm version)/bin"  $PATH
+set PATH "/home/daniel/.nvm/versions/node/$(nvm version)/bin"  $PATH
 
 # bass export PATH=$PATH:$(npm config --global get prefix)/bin
 

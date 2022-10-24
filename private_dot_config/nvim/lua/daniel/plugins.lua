@@ -15,8 +15,9 @@ return require('packer').startup(function(use)
     use("TimUntersberger/neogit")
 
     -- TJ created lodash of neovim
+    use("BurntSushi/ripgrep")
     use("nvim-lua/plenary.nvim")
-    use("nvim-lua/popup.nvim")
+    use("nvim-lua/popup.nvim", {tags = "0.1.0"})
     use("nvim-telescope/telescope.nvim")
     use("nvim-telescope/telescope-file-browser.nvim")
 
@@ -58,6 +59,9 @@ return require('packer').startup(function(use)
             require('Comment').setup()
         end
     })
+
+    use('ray-x/go.nvim')
+    use('ray-x/guihua.lua')
 
     use("linty-org/key-menu.nvim")
     -- use("folke/which-key.nvim", {

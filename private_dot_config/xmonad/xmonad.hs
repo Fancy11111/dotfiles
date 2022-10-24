@@ -592,33 +592,35 @@ toggleFloat w = windows (\s ->
 
 myKeys :: [(String, X ())]
 myKeys = [
-	("M-c", kill1),
-	("M-<Tab>", sendMessage NextLayout),
-	("M-S-<Up>", sendMessage MirrorExpand),
-	("M-S-<Down>", sendMessage MirrorShrink),
-	("M-S-<Left>", sendMessage Shrink),
-	("M-S-<Right>", sendMessage Expand),
+	("M-c", kill1)
+	,("M-<Tab>", sendMessage NextLayout)
+	, ("M-S-<Up>", sendMessage MirrorExpand)
+	, ("M-S-<Down>", sendMessage MirrorShrink)
+	, ("M-S-<Left>", sendMessage Shrink)
+	, ("M-S-<Right>", sendMessage Expand)
 	-- ("M-<Left>", sendMessage PreviousWorkspace),
 	-- ("M-<Right>", sendMessage NextWorkspace),
-    ("M-<Return>", spawn myTerminal),
-	("M-b", spawn myBrowser),
-    ("M-S-o", spawn "obsidian"),
-    ("M-e", spawn myFileManager),
-    ("M-S-d", spawn discord),
-	("M-<Space>", sendMessage $ JumpToLayout "full"),
-	("M-g", sendMessage $ JumpToLayout "grid"),
-	("M-f", withFocused toggleFloat),
-	("M-t", withFocused $ windows . (flip W.float $ W.RationalRect 0 0 1 1)),
-	("<Print>", spawn "spectacle"),
-	("<XF86AudioRaiseVolume>", spawn "pamixer -i 5"),
-	("<XF86AudioLowerVolume>", spawn "pamixer -d 5"),
-	("<XF86AudioMute>", spawn "pamixer -t"),
-	("<XF86Calculator>", spawn "alacritty -e qalc"),
-	("<XF86HomePage>", spawn (myBrowser ++ " https://todoist.com")),
-	("<XF86Mail>", spawn (myBrowser ++ " https://mail.proton.me/u/0/inbox")),
-	("M-s", spawn "light-locker-command -l"),
-    ("M-r", spawn "xmonad --recompile"),
-    ("M-S-r", spawn "xmonad --restart")
+    , ("M-<Return>", spawn myTerminal)
+	, ("M-b", spawn myBrowser)
+    , ("M-S-o", spawn "obsidian")
+    , ("M-S-f", spawn myFileManager)
+    , ("M-S-d", spawn discord)
+    , ("M-S-x", spawn "xournalpp")
+	, ("M-<Space>", sendMessage $ JumpToLayout "full")
+	, ("M-g", sendMessage $ JumpToLayout "grid")
+	, ("M-f", withFocused toggleFloat)
+	, ("M-t", withFocused $ windows . (flip W.float $ W.RationalRect 0 0 1 1))
+	, ("<Print>", spawn "spectacle")
+	, ("<XF86AudioRaiseVolume>", spawn "pamixer -i 5")
+	, ("<XF86AudioLowerVolume>", spawn "pamixer -d 5")
+	, ("<XF86AudioMute>", spawn "pamixer -t")
+	, ("<XF86Calculator>", spawn "alacritty -e qalc")
+	, ("<XF86HomePage>", spawn (myBrowser ++ " https://todoist.com"))
+	, ("<XF86Mail>", spawn (myBrowser ++ " https://mail.proton.me/u/0/inbox"))
+	, ("M-s", spawn "light-locker-command -l")
+--    , ("M-r", spawn "xmonad --recompile"),
+-- conflicts with standard move window to 3rd xinerame screen
+-- ("M-S-r", spawn "xmonad --restart")
     , ("M-S-<Left>", shiftTo Next nonNSP >> moveTo Next nonNSP)
     , ("M-S-<Right>", shiftTo Prev nonNSP >> moveTo Prev nonNSP)
     
@@ -636,6 +638,7 @@ main = do
     -- Launching three instances of xmobar on their monitors.
     xmproc0 <- spawnPipe "xmobar -x 0 ~/.config/xmonad/nord-xmobarrc"
     xmproc1 <- spawnPipe "xmobar -x 1 ~/.config/xmonad/nord-xmobarrc"
+    xmproc2 <- spawnPipe "xmobar -x 2 ~/.config/xmonad/nord-xmobarrc"
     -- xmproc2 <- spawnPipe "xmobar -x 2 ~/.config/xmobar/xmobarrc1"
     xmonad $ ewmh . docks $ def
         { manageHook = ( isFullscreen --> doFullFloat ) <+> myManageHook <+> manageDocks
@@ -656,7 +659,7 @@ main = do
         , normalBorderColor  = myNormColor
         , focusedBorderColor = myFocusColor
         , logHook = workspaceHistoryHook <+> myLogHook <+> dynamicLogWithPP xmobarPP
-                        { ppOutput = \x -> hPutStrLn xmproc0 x  >> hPutStrLn xmproc1 x --  >> hPutStrLn xmproc2 x
+                        { ppOutput = \x -> hPutStrLn xmproc0 x  >> hPutStrLn xmproc1 x  >> hPutStrLn xmproc2 x
                         , ppCurrent = xmobarColor "#c3e88d" "" . wrap "[" "]" -- Current workspace in xmobar
                         , ppVisible = xmobarColor "#c3e88d" ""                -- Visible but not current workspace
                         , ppHidden = xmobarColor "#82AAFF" "" . wrap "*" ""   -- Hidden workspaces in xmobar
