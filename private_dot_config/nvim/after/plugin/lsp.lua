@@ -2,6 +2,8 @@ local Remap = require("daniel.keymap")
 local nnoremap = Remap.nnoremap
 local inoremap = Remap.inoremap
 
+local code_actions_keymap = require("daniel.lsp-keymaps").code_actions_keymap
+
 local lspconfig = require("lspconfig")
 local lspconfig_configs = require('lspconfig.configs')
 local lspconfig_util = require('lspconfig.util')
@@ -78,10 +80,11 @@ cmp.setup({
 	sources = {
 		-- tabnine completion? yayaya
 
-		{ name = "cmp_tabnine" },
+		-- { name = "cmp_tabnine" },
 
 		{ name = "nvim_lsp" },
 
+		{ name = "jdtls" },
 		-- For vsnip user.
 		-- { name = 'vsnip' },
 
@@ -110,16 +113,17 @@ local function config(_config)
 	return vim.tbl_deep_extend("force", {
 		capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities()),
 		on_attach = function()
-			nnoremap("gd", function() vim.lsp.buf.definition() end)
-			nnoremap("K", function() vim.lsp.buf.hover() end)
-			nnoremap("<leader>vws", function() vim.lsp.buf.workspace_symbol() end)
-			nnoremap("<leader>vd", function() vim.diagnostic.open_float() end)
-			nnoremap("[d", function() vim.diagnostic.goto_next() end)
-			nnoremap("]d", function() vim.diagnostic.goto_prev() end)
-			nnoremap("<leader>vca", function() vim.lsp.buf.code_action() end)
-			nnoremap("<leader>vrr", function() vim.lsp.buf.references() end)
-			nnoremap("<leader>vrn", function() vim.lsp.buf.rename() end)
-			inoremap("<C-h>", function() vim.lsp.buf.signature_help() end)
+            code_actions_keymap()
+			-- nnoremap("<leader>cgd", function() vim.lsp.buf.definition() end, {desc = "Goto definition"})
+			-- nnoremap("<leader>ch", function() vim.lsp.buf.hover() end, {desc = "Hover symbol"})
+			-- nnoremap("<leader>cws", function() vim.lsp.buf.workspace_symbol() end, {desc = "Display workspace symbol"})
+			-- nnoremap("<leader>cd", function() vim.diagnostic.open_float() end, {desc = "Toggle error/warning display"})
+			-- nnoremap("<leader>cn", function() vim.diagnostic.goto_next() end, {desc = "Display next warning/error"})
+			-- nnoremap("<leader>cb", function() vim.diagnostic.goto_prev() end, {desc = "Display previous warning/error"})
+			-- nnoremap("<leader>ca", function() vim.lsp.buf.code_action() end, {desc = "List code actions"})
+			-- nnoremap("<leader>crf", function() vim.lsp.buf.references() end, {desc = "Find references"})
+			-- nnoremap("<leader>crn", function() vim.lsp.buf.rename() end, {desc = "Rename symbol"})
+			-- inoremap("<C-h>", function() vim.lsp.buf.signature_help() end, {desc = "Get signature help"})
 		end,
 	}, _config or {})
 end
@@ -149,6 +153,7 @@ require("lspconfig").gopls.setup(config({
 		},
 	},
     on_attach = function ()
+        code_actions_keymap()
         vim.api.nvim_exec([[ autocmd BufWritePre *.go :silent! lua require('go.format').goimport() ]], false)
     end,
 }))
@@ -194,6 +199,7 @@ require("lspconfig").sumneko_lua.setup(config({
 
 require("lspconfig").vuels.setup(config())
 
+-- lspconfig.jdtls.setup(config({}))
 -- require("lspconfig").vuels.setup(config({
 --     on_attach = function(client)
             --[[
@@ -334,6 +340,7 @@ lspconfig_configs.volar_doc = {
     },
   }
 }
+
 lspconfig.volar_doc.setup{}
 
 lspconfig_configs.volar_html = {
@@ -364,3 +371,4 @@ lspconfig_configs.volar_html = {
   }
 }
 lspconfig.volar_html.setup{}
+

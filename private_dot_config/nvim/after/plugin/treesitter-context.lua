@@ -35,6 +35,6 @@ function ContextSetup(show_all_context)
     })
 end
 
-nnoremap("<leader>cf", function() ContextSetup(true) end)
-nnoremap("<leader>cp", function() ContextSetup(false) end)
+nnoremap("<leader>cf", function() ContextSetup(true) end, { desc = "treesitter context setup true" })
+nnoremap("<leader>cp", function() ContextSetup(false) end, { desc = "treesitter context setup false" })
 ContextSetup(false)

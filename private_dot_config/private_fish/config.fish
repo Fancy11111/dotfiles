@@ -29,6 +29,8 @@ bass source /usr/share/nvm/install-nvm-exec
 # set PATH ~/.nvm/versions/node/v16.17.0/lib/node_modules/npm  $PATH
 set PATH "/home/daniel/.nvm/versions/node/$(nvm version)/bin"  $PATH
 
+set GOPATH "$(go env GOPATH)"
+set PATH "$(go env GOPATH)/bin" $PATH
 # bass export PATH=$PATH:$(npm config --global get prefix)/bin
 
 starship init fish | source

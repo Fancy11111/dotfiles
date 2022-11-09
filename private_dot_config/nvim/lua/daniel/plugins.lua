@@ -22,6 +22,7 @@ return require('packer').startup(function(use)
     use("nvim-telescope/telescope-file-browser.nvim")
 
     -- All the things
+    use('mfussenegger/nvim-dap')
     use("neovim/nvim-lspconfig")
     use("hrsh7th/cmp-nvim-lsp")
     use("hrsh7th/cmp-buffer")
@@ -33,6 +34,9 @@ return require('packer').startup(function(use)
     use("simrat39/symbols-outline.nvim")
     use("L3MON4D3/LuaSnip")
     use("saadparwaiz1/cmp_luasnip")
+
+    use("mfussenegger/nvim-jdtls")
+    use("williamboman/mason.nvim")
 
     -- Primeagen doesn"t create lodash
     use("ThePrimeagen/git-worktree.nvim")
@@ -53,6 +57,8 @@ return require('packer').startup(function(use)
 
 
     use("theHamsta/nvim-dap-virtual-text")
+
+    use("akinsho/bufferline.nvim")
 
     use("numToStr/Comment.nvim", {
         config = function()
