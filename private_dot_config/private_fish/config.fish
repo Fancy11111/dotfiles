@@ -19,6 +19,7 @@ alias xmonad-config="cd ~/.config/xmonad && nvim ."
 alias fish-config="cd ~/.config/fish && nvim ."
 alias vue-language-server="vls"
 alias g="git"
+alias susp="systemctl suspend"
 
 bass export NVM_DIR=~/.nvm
 
@@ -28,10 +29,10 @@ bass source /usr/share/nvm/install-nvm-exec
 
 # set PATH ~/.nvm/versions/node/v16.17.0/lib/node_modules/npm  $PATH
 set PATH "/home/daniel/.nvm/versions/node/$(nvm version)/bin"  $PATH
-
+set JUPYTERLAB_DIR "$HOME/.local/share/jupyter/lab" 
 set GOPATH "$(go env GOPATH)"
 set PATH "$(go env GOPATH)/bin" $PATH
 # bass export PATH=$PATH:$(npm config --global get prefix)/bin
 
 starship init fish | source
-neofetch
+# neofetch

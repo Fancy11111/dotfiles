@@ -4,7 +4,7 @@ local inoremap = Remap.inoremap
 local M = {}
 
 local function code_actions_keymap()
-    nnoremap("<leader>cgd", function() vim.lsp.buf.definition() end, { desc = "Goto definition" })
+    nnoremap("<leader>gD", function() vim.lsp.buf.definition() end, { desc = "Goto definition" })
     nnoremap("<leader>ch", function() vim.lsp.buf.hover() end, { desc = "Hover symbol" })
     nnoremap("<leader>cws", function() vim.lsp.buf.workspace_symbol() end, { desc = "Display workspace symbol" })
     nnoremap("<leader>cd", function() vim.diagnostic.open_float() end, { desc = "Toggle error/warning display" })

@@ -1,0 +1,14 @@
+#! /bin/bash
+
+counter=0
+
+while :
+do
+    tput cup 0 0
+    counter=$((counter+1))
+    dte="$(date +"%A %Y/%m/%d %H:%M:%S"| sed 's/  / /g')"
+    echo -e "$dte"
+    sleep 1
+done
+
+

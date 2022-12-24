@@ -82,11 +82,13 @@ myFont = "xft:SauceCodePro Nerd Font Mono:regular:size=9:antialias=true:hinting=
 
 myEditor = "nvim"
 
+intellij = "intellij-idea-ultimate-edition"
+
 myBrowser = "brave"
 
 myFileManager = "nemo"
 
-discord = "discord-canary"
+discord = "discord"
 
 myModMask = mod4Mask
 
@@ -97,6 +99,8 @@ myBorderWidth = 2
 myNormColor = "#292d3e"
 
 myFocusColor = "#bbc5ff"
+
+myScreenshot = "flameshot gui"
 
 windowCount = gets $ Just . show . length . W.integrate' . W.stack . W.workspace . W.current . windowset
 
@@ -512,7 +516,7 @@ tabs     = renamed [Replace "tabs"]
 
 full =
  	renamed [Replace "full"] $
- 	mySpacing 8 $
+ 	mySpacing 0 $
  	Full
 
 -- Theme for showWName which prints current workspace when you change workspaces.
@@ -534,7 +538,7 @@ myLayoutHook = avoidStruts $ mouseResize $ windowArrange $ T.toggleLayouts float
                                  ||| floats
                                  ||| grid
                                  ||| noBorders tabs
-                                 ||| full
+                                 ||| noBorders full
 
 ------------------------------------------------------------------------
 -- SCRATCHPADS
@@ -605,6 +609,8 @@ myKeys = [
     , ("M-S-o", spawn "obsidian")
     , ("M-S-f", spawn myFileManager)
     , ("M-S-d", spawn discord)
+    , ("M-S-<Print>", spawn myScreenshot)
+    , ("M-S-i", spawn intellij)
     , ("M-S-x", spawn "xournalpp")
 	, ("M-<Space>", sendMessage $ JumpToLayout "full")
 	, ("M-g", sendMessage $ JumpToLayout "grid")
