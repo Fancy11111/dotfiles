@@ -1,5 +1,4 @@
-require("daniel.config.set")
-
+-- require("daniel.config.set")
 
 require("daniel.config.alpha")
 require("daniel.config.autocommands")
