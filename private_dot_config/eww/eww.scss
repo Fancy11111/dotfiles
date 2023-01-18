@@ -1,0 +1,68 @@
+
+$surface-darkgrey: #20252b;
+$surface-fg: #949494;
+$surface-lightgrey: #3d464e;
+$surface-grey: #2b3238;
+$surface-red: #f87070;
+$primary: #29c0ce;
+
+* { all: unset; }
+
+.sidebar {
+    background: rgba($primary, 0.8);
+}
+
+.workspaces-widget {
+    padding-top: 0.5em;
+
+    button {
+        font-size: 1em;
+    }
+
+    .workspace-entry {
+        border-radius: 0.5em;
+        padding: 0.7em;
+    }
+
+    .empty {
+        background: rgba($surface-lightgrey, 0.2);
+    }
+
+    .occupied {
+        background: rgba($surface-darkgrey, 0.4);
+    }
+
+    .current {
+        background: rgba($surface-darkgrey, 0.6);
+    }
+}
+
+.close-btn {
+  font-size: 1em;
+  &:hover {
+    color: $surface-red;
+  }
+}
+
+.btns-box {
+  font-size: 1.5em;
+  padding-bottom: 1em;
+
+  button {
+    padding: 0.4em;
+    border-radius: 0.5em;
+    background-color: rgba($surface-darkgrey, 0.3);
+
+    &:hover {
+      transition: 200ms linear background-color, border-radius;
+      background-color: rgba($surface-lightgrey, 0.6);
+    }
+
+    &:last-child {
+      color: rgba($surface-red, 0.8);
+    }
+  }
+}
+
+
+

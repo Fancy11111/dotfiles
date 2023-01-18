@@ -1,0 +1,21 @@
+
+(defwidget menu-layout [] 
+  (bar
+    "test"
+  )
+)
+
+
+
+(defwindow menu
+  :monitor 0
+  :geometry (geometry
+              :width "30%"
+              :height "40%"
+              :anchor "center"
+              )
+  :stacking "fg"
+  :exclusive true
+  :focusable false 
+  (menu-layout) 
+)

@@ -1,0 +1,10 @@
+#! /bin/bash
+tempfilename=~/temp/$(date +%s).jpg
+echo $tempfilename
+grim -g "$(slurp)" $tempfilename
+if [ -f "$tempfilename" ] ; then
+    mv $tempfilename "$(zenity --file-selection --filename=screenshot.jpg --save)"
+fi
+if [ -f "$tempfilename" ] ; then
+    rm $tempfilename
+fi
