@@ -99,9 +99,9 @@ vim.lsp.set_log_level("DEBUG")
 vim.list_extend(bundles,
     vim.split(vim.fn.glob("~/.local/share/nvim/mason/packages/java-test/extension/server/com.microsoft.java.test.plugin-0.37.1.jar"
         , 1), "\n"))
--- config['init_options'] = {
---     bundles = bundles;
--- }
+config['init_options'] = {
+     bundles = bundles;
+}
 
 config['on_attach'] = function(client, bufnr)
     -- With `hotcodereplace = 'auto' the debug adapter will try to apply code changes
@@ -110,7 +110,7 @@ config['on_attach'] = function(client, bufnr)
     -- You can use the `JdtHotcodeReplace` command to trigger it manually
     code_actions_keymap()
     require("jdtls.setup").add_commands()
-    -- require 'jdtls'.setup_dap()
+    require 'jdtls'.setup_dap()
     require("lsp-status").register_progress()
     local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 

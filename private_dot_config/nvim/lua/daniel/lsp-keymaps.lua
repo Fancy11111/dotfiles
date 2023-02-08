@@ -3,9 +3,17 @@ local nnoremap = Remap.nnoremap
 local inoremap = Remap.inoremap
 local M = {}
 
+local dap = require("dap")
+
+local function toggle_breakpoint()
+    dap.toggle_breakpoint()
+end
+
 local function code_actions_keymap()
-    nnoremap("<leader>gD", function() vim.lsp.buf.definition() end, { desc = "Goto definition" })
+    nnoremap("gD", function() vim.lsp.buf.definition() end, { desc = "Goto definition" })
+    nnoremap("gd", function() vim.lsp.buf.declaration() end, { desc = "Goto definition" })
     nnoremap("<leader>ch", function() vim.lsp.buf.hover() end, { desc = "Hover symbol" })
+    nnoremap("<leader>cc", function() toggle_breakpoint() end, { desc = "Toggle Breakpoint" })
     nnoremap("<leader>cws", function() vim.lsp.buf.workspace_symbol() end, { desc = "Display workspace symbol" })
     nnoremap("<leader>cd", function() vim.diagnostic.open_float() end, { desc = "Toggle error/warning display" })
     nnoremap("<leader>cn", function() vim.diagnostic.goto_next() end, { desc = "Display next warning/error" })

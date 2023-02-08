@@ -70,6 +70,8 @@ return packer.startup(function(use)
     use("williamboman/mason.nvim")
 
     use('mfussenegger/nvim-dap')
+    use('mfussenegger/nvim-dap-ui')
+
     use("mfussenegger/nvim-jdtls")
 
     -- Primeagen doesn"t create lodash
@@ -82,6 +84,8 @@ return packer.startup(function(use)
     use("gruvbox-community/gruvbox")
     use("folke/tokyonight.nvim")
     use("shaunsingh/nord.nvim")
+    use("EdenEast/nightfox.nvim")
+    use("AlexvZyl/nordic.nvim")
 
     use("nvim-treesitter/nvim-treesitter", {
         run = ":TSUpdate"
@@ -166,6 +170,9 @@ return packer.startup(function(use)
     })
 
     use("kyazdani42/nvim-web-devicons")
+
+    use("elkowar/yuck.vim")
+
 
     -- use("folke/which-key.nvim", {
     --     config = function()

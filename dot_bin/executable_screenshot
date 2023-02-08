@@ -1,9 +1,13 @@
 #! /bin/bash
 tempfilename=~/temp/$(date +%s).jpg
-echo $tempfilename
 grim -g "$(slurp)" $tempfilename
 if [ -f "$tempfilename" ] ; then
-    mv $tempfilename "$(zenity --file-selection --filename=screenshot.jpg --save)"
+    # zenity --question --text "Copy to clipboard?"
+    # toClipboard=$?
+    # if [ $toClipboard -eq 0 ] ; then
+    #     wl-copy < $tempfilename
+    # fi
+    mv $tempfilename "$(zenity --file-selection --filename=~/Pictures/screenshot.jpg --save)"
 fi
 if [ -f "$tempfilename" ] ; then
     rm $tempfilename

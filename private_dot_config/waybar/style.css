@@ -214,9 +214,6 @@ label:focus {
     background-color: rgba(255, 255, 255, 0.5);
 }
 
-#tray > * {
-    box-shadow: inset 5px 5px #000000;
-}
 
 #tray > .passive {
     -gtk-icon-effect: dim;

@@ -70,6 +70,7 @@ return packer.startup(function(use)
     use("williamboman/mason.nvim")
 
     use('mfussenegger/nvim-dap')
+    use('mfussenegger/nvim-dap-ui')
     use("mfussenegger/nvim-jdtls")
 
     -- Primeagen doesn"t create lodash
@@ -120,6 +121,8 @@ return packer.startup(function(use)
             require('nvim-autopairs').setup()
         end
     })
+
+    use("elkowar/yuck.vim")
 
     use("xuhdev/vim-latex-live-preview", {
         config = function()
