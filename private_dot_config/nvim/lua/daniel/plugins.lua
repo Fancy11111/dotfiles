@@ -85,7 +85,11 @@ return packer.startup(function(use)
     use("folke/tokyonight.nvim")
     use("shaunsingh/nord.nvim")
     use("EdenEast/nightfox.nvim")
-    use("AlexvZyl/nordic.nvim")
+    use("AlexvZyl/nordic.nvim", {
+        config = function ()
+            require("nordic").load()
+        end
+    })
 
     use("nvim-treesitter/nvim-treesitter", {
         run = ":TSUpdate"
