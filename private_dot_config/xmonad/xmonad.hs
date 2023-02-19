@@ -612,6 +612,7 @@ myKeys = [
     , ("M-S-<Print>", spawn myScreenshot)
     , ("M-S-i", spawn intellij)
     , ("M-S-x", spawn "xournalpp")
+    , ("M-S-m", spawn "mattermost-desktop")
 	, ("M-<Space>", sendMessage $ JumpToLayout "full")
 	, ("M-g", sendMessage $ JumpToLayout "grid")
 	, ("M-f", withFocused toggleFloat)
