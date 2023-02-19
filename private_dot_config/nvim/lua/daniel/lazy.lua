@@ -27,6 +27,7 @@ local plugins = {
     'nvim-telescope/telescope-file-browser.nvim',
     'nvim-telescope/telescope-media-files.nvim',
     'ThePrimeagen/git-worktree.nvim',
+    'lewis6991/gitsigns.nvim',
     {
         'numToStr/Comment.nvim',
         config = function()
