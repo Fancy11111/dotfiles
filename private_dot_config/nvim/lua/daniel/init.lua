@@ -6,7 +6,7 @@ require("daniel.autocommands")
 
 -- config
 require("daniel.color")
-require("daniel.treesitter")
+-- require("daniel.treesitter")
 require("daniel.lsp")
 require("daniel.project")
 require("daniel.telescope")

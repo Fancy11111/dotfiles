@@ -1,14 +1,15 @@
 -- vim.g.colorscheme = "tokyonight"
-vim.g.colorscheme = "nordic"
+local original_colorscheme = "nightfox"
+vim.g.colorscheme = original_colorscheme
 
-local colorschemes = { "nordic",
+local colorschemes = {
+    -- "nordic",
     "tokyonight", "tokyonight-night", "tokyonight-storm", "tokyonight-moon",
     "nightfox", "duskfox", "nordfox", "terafox", "carbonfox",
     "catppuccin-frappe", "catppuccin-macchiato", "catppuccin-mocha",
     "gruvbox"
 }
 
-local original_colorscheme = vim.g.colorscheme
 
 local numColorschemes = 0
 
@@ -87,9 +88,11 @@ function ColorMyPencils()
     vim.g.tokyonight_transparent = true
     vim.g.gruvbox_invert_selection = '0'
     vim.opt.background = "dark"
-
-    vim.cmd("colorscheme " .. vim.g.colorscheme)
-
+    local c = "colorscheme " .. vim.g.colorscheme
+    print(c)
+    -- vim.cmd("colorscheme " .. vim.g.colorscheme)
+    -- vim.cmd(c)
+    vim.api.nvim_exec([[ colorscheme ]] .. original_colorscheme, false)
     local hl = function(thing, opts)
         vim.api.nvim_set_hl(0, thing, opts)
     end
@@ -120,8 +123,10 @@ function ColorMyPencils()
     })
 end
 
+-- vim.defer_fn(function() ColorMyPencils() end, 500)
+
 ColorMyPencils()
 
 vim.api.nvim_create_user_command("ChooseColor", ChooseColor, {})
 
-setColor(vim.g.colorscheme)
+-- setColor(vim.g.colorscheme)

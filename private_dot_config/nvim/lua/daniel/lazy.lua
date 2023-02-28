@@ -10,14 +10,88 @@ if not vim.loop.fs_stat(lazypath) then
     })
 end
 vim.opt.rtp:prepend(lazypath)
-
+-- vim.opt.runtimepath:append("$HOME/.local/share/treesitter")
+vim.opt.runtimepath:append("$HOME/.local/share/lazy/nvim-treesitter/parser")
+vim.opt.rtp:append("$HOME/.local/share/lazy/nvim-treesitter/parser")
+function dump(o)
+    if type(o) == 'table' then
+        local s = '{ '
+        for k, v in pairs(o) do
+            if type(k) ~= 'number' then k = '"' .. k .. '"' end
+            s = s .. '[' .. k .. '] = ' .. dump(v) .. ','
+        end
+        return s .. '} '
+    else
+        return tostring(o)
+    end
+end
 
 local plugins = {
     'neovim/nvim-lspconfig',
     'williamboman/mason.nvim',
     'williamboman/mason-lspconfig.nvim',
     'nvim-lua/plenary.nvim',
-    { 'nvim-treesitter/nvim-treesitter',         build = ':TSUpdate' },
+    'nvim-treesitter/nvim-treesitter-textobjects',
+    {
+        'nvim-treesitter/nvim-treesitter',
+        version = false,
+        build = ":TSUpdate",
+        event = { "BufReadPost", "BufNewFile" },
+        dependencies = {
+            "nvim-treesitter/nvim-treesitter-textobjects",
+            init = function()
+                -- PERF: no need to load the plugin, if we only need its queries for mini.ai
+                local plugin = require("lazy.core.config").spec.plugins["nvim-treesitter"]
+                local opts = require("lazy.core.plugin").values(plugin, "opts", false)
+                local enabled = false
+                if opts.textobjects then
+                    for _, mod in ipairs({ "move", "select", "swap", "lsp_interop" }) do
+                        if opts.textobjects[mod] and opts.textobjects[mod].enable then
+                            enabled = true
+                            break
+                        end
+                    end
+                end
+                if not enabled then
+                    require("lazy.core.loader").disable_rtp_plugin("nvim-treesitter-textobjects")
+                end
+            end
+        },
+        opts = {
+            ensure_installed = {
+                "bash",
+                "help",
+                "html",
+                "go",
+                "javascript",
+                "json",
+                "lua",
+                "markdown",
+                "markdown_inline",
+                "python",
+                "query",
+                "regex",
+                "tsx",
+                "typescript",
+                "vim",
+                "yaml",
+            },
+            incremental_selection = {
+                enable = true,
+                keymaps = {
+                    init_selection = "<C-space>",
+                    node_incremental = "<C-space>",
+                    scope_incremental = "<nop>",
+                    node_decremental = "<bs>",
+                }
+            },
+            parser_install_dir = "$HOME/.local/share/lazy/nvim-treesitter/parser"
+        },
+        ---@param opts TSConfig
+        config = function(_, opts)
+            require("nvim-treesitter.configs").setup(opts)
+        end,
+    },
     { 'nvim-treesitter/nvim-treesitter-context', dependencies = { 'nvim-treesitter/nvim-treesitter' } },
     {
         'nvim-telescope/telescope.nvim', tag = '0.1.0',
@@ -27,7 +101,12 @@ local plugins = {
     'nvim-telescope/telescope-file-browser.nvim',
     'nvim-telescope/telescope-media-files.nvim',
     'ThePrimeagen/git-worktree.nvim',
-    'lewis6991/gitsigns.nvim',
+    {
+        'lewis6991/gitsigns.nvim',
+        config = function()
+            require("gitsigns").setup()
+        end
+    },
     {
         'numToStr/Comment.nvim',
         config = function()
@@ -60,7 +139,7 @@ local plugins = {
         config = function()
             require("lspsaga").setup({})
         end,
-        dependencies = { { "nvim-tree/nvim-web-devicons" } }
+        dependencies = { { "nvim-tree/nvim-web-devicons", "nvim-treesitter/nvim-treesitter" } }
     },
     -- Debugging
     "mfussenegger/nvim-dap",
@@ -122,7 +201,7 @@ local plugins = {
                 css = {
                     rgb_fn = true
                 },
-                RRGGBBAA = true
+                -- RRGGBBAA = true
             })
         end
     },
@@ -134,12 +213,50 @@ local plugins = {
     { 'ThePrimeagen/harpoon' },
 
     -- Colorschemes
-    "folke/tokyonight.nvim",
-    'andersevenrud/nordic.nvim',
-    'EdenEast/nightfox.nvim',
-    'gruvbox-community/gruvbox',
 
-    { "catppuccin/nvim", name = "catppuccin" },
+    {
+        "folke/tokyonight.nvim",
+        lazy = false,
+        priority = 500,
+        config = function()
+        end
+    },
+    -- {
+    --     'andersevenrud/nordic.nvim',
+    --     name = "nordic",
+    --     lazy = false,
+    --     priority = 1500,
+    --     config = function()
+    --         local nordic_module = require('nordic').load()
+    --         -- nordic_module.setup()
+    --         print(dump(nordic_module))
+    --         -- print(nordic_module)
+    --         -- require 'nordic'.colorscheme()
+    --     end
+    -- },
+    {
+        'EdenEast/nightfox.nvim',
+        lazy = false,
+        priority = 500,
+        config = function()
+        end
+    },
+    {
+        'gruvbox-community/gruvbox',
+        lazy = false,
+        priority = 500,
+        config = function()
+            -- require('gruvbox').setup()
+        end
+    },
+    {
+        "catppuccin/nvim",
+        name = "catppuccin",
+        lazy = false,
+        priority = 500,
+        config = function()
+        end
+    },
 
     {
         'linty-org/key-menu.nvim',

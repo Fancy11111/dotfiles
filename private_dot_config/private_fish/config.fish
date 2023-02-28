@@ -1,6 +1,7 @@
 set PATH ~/bin ~/.bin ~/.local/bin ~/.bun/bin ~/.cargo/bin $PATH
 set -g theme_color_scheme nord
 set -gx EDITOR nvim
+set -gx ASSUME_NO_MOVING_GC_UNSAFE_RISK_IT_WITH go1.20
 set -gx PF_INFO "ascii title os uptime pkgs wm shell editor"
 set -gx BAT_THEME catppuccin
 

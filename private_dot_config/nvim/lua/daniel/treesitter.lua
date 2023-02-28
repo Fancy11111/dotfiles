@@ -1,12 +1,12 @@
-require'nvim-treesitter.configs'.setup {
-    ensure_installed = "all",
-    sync_install = false,
-
-    highlight = {
-        enable = true,
-        additional_vim_regex_highlighting = true,
-    },
-}
+-- require'nvim-treesitter.configs'.setup {
+--     ensure_installed = "all",
+--     sync_install = false,
+--
+--     highlight = {
+--         enable = true,
+--         additional_vim_regex_highlighting = true,
+--     },
+-- }
 
 
 function ContextSetup(show_all_context)

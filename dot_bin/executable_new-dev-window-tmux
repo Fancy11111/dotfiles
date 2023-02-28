@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+if [[ $# -ge 1 ]]; then
+    tmux new-window $1
+else
+    tmux new-window
+fi
+
+tmux split-window -v
+tmux select-pane -t 0
+tmux select-layout 'fecc,130x71,0,0[130x50,0,0,6,130x20,0,51,8]'
+tmux select-pane

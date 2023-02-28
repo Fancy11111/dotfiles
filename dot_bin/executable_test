@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+echo $(find ~/work ~/.config ~/projects ~/work -mindepth 1 -maxdepth 1 -type d) ~/work/friendly-captcha/web/friendly-frontend/
