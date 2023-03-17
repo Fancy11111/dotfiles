@@ -1,5 +1,5 @@
 -- vim.g.colorscheme = "tokyonight"
-local original_colorscheme = "nightfox"
+local original_colorscheme = "synthwave84"
 vim.g.colorscheme = original_colorscheme
 
 local colorschemes = {
@@ -7,7 +7,8 @@ local colorschemes = {
     "tokyonight", "tokyonight-night", "tokyonight-storm", "tokyonight-moon",
     "nightfox", "duskfox", "nordfox", "terafox", "carbonfox",
     "catppuccin-frappe", "catppuccin-macchiato", "catppuccin-mocha",
-    "gruvbox"
+    "gruvbox",
+    "synthwave84"
 }
 
 

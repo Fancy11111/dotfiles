@@ -87,10 +87,10 @@ local plugins = {
             },
             parser_install_dir = "$HOME/.local/share/lazy/nvim-treesitter/parser"
         },
-        ---@param opts TSConfig
-        config = function(_, opts)
-            require("nvim-treesitter.configs").setup(opts)
-        end,
+        -- ---@param opts TSConfig
+        -- config = function(_, opts)
+        --     require("nvim-treesitter.configs").setup(opts)
+        -- end,
     },
     { 'nvim-treesitter/nvim-treesitter-context', dependencies = { 'nvim-treesitter/nvim-treesitter' } },
     {
@@ -131,6 +131,8 @@ local plugins = {
     },
     'mfussenegger/nvim-jdtls',
     { 'folke/neodev.nvim' },
+    { 'mfussenegger/nvim-lint'},
+    { 'mhartington/formatter.nvim' },
 
     'nvim-tree/nvim-web-devicons',
     {
@@ -257,7 +259,14 @@ local plugins = {
         config = function()
         end
     },
-
+    {
+        "lunarvim/synthwave84.nvim",
+        name = "synthwave84",
+        lazy = false,
+        priority = 500,
+        config = function()
+        end
+    },
     {
         'linty-org/key-menu.nvim',
         config = function()

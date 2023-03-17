@@ -33,3 +33,16 @@ vim.api.nvim_create_autocmd({ "TextYankPost" }, {
     vim.highlight.on_yank { higroup = "Visual", timeout = 200 }
   end,
 })
+
+local au = vim.api.nvim_create_augroup("Daniel", {
+    clear = true
+})
+-- Tabwidths for filetypes
+vim.api.nvim_create_autocmd({"BufEnter"}, {
+    group = au,
+    pattern = {"*.vue", "*.ts", "*.go", "*.tsx", "*.lua" },
+    callback = function()
+        vim.cmd "setlocal tabstop=2"
+        vim.cmd "setlocal shiftwidth=2"
+    end
+})

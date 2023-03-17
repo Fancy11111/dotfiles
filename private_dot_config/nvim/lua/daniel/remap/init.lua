@@ -47,5 +47,7 @@ keymap("n", "<leader>Y", "\"+Y", { desc = "" })
 keymap("n", "<leader>d", "\"_d", { desc = "", noremap = true })
 keymap("v", "<leader>d", "\"_d", { desc = "", noremap = true })
 
+keymap("n", "<leader>u", vim.cmd.UndotreeToggle, {desc = "Toggle Undotree", noremap = true})
+
 require("daniel.remap.lspsaga")
 require("daniel.remap.telescope")

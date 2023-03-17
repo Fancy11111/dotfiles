@@ -56,8 +56,6 @@ cmp.event:on(
     cmp_autopairs.on_confirm_done()
 )
 
-
-
 local luasnip = require('luasnip')
 
 luasnip.config.set_config({
