@@ -37,3 +37,8 @@ set PATH "$(go env GOPATH)/bin" $PATH
 
 starship init fish | source
 # neofetch
+
+# pnpm
+set -gx PNPM_HOME "/home/daniel/.local/share/pnpm"
+set -gx PATH "$PNPM_HOME" $PATH
+# pnpm end
