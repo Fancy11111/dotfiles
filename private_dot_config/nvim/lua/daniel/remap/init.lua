@@ -51,3 +51,4 @@ keymap("n", "<leader>u", vim.cmd.UndotreeToggle, {desc = "Toggle Undotree", nore
 
 require("daniel.remap.lspsaga")
 require("daniel.remap.telescope")
+require("daniel.remap.harpoon")

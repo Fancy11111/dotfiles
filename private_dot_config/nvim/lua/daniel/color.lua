@@ -1,5 +1,5 @@
 -- vim.g.colorscheme = "tokyonight"
-local original_colorscheme = "synthwave84"
+local original_colorscheme = "terafox"
 vim.g.colorscheme = original_colorscheme
 
 local colorschemes = {
@@ -46,7 +46,7 @@ function ChooseColor()
     --     end
     -- })
     -- vim.api.nvim_buf_set_keymap(buf, 'n', '<CR>', setColor, {noremap = true})
-    local window = vim.api.nvim_open_win(buf, 0, window_opts)
+    local window = vim.api.nvim_open_win(buf, true, window_opts)
     vim.api.nvim_buf_set_keymap(buf, 'n', '<CR>', "", {
         noremap = true,
         callback = function()
@@ -84,44 +84,44 @@ function ChooseColor()
 end
 
 function ColorMyPencils()
-    vim.g.gruvbox_contrast_dark = 'hard'
-    vim.g.tokyonight_transparent_sidebar = true
-    vim.g.tokyonight_transparent = true
-    vim.g.gruvbox_invert_selection = '0'
-    vim.opt.background = "dark"
-    local c = "colorscheme " .. vim.g.colorscheme
-    print(c)
-    -- vim.cmd("colorscheme " .. vim.g.colorscheme)
-    -- vim.cmd(c)
+    -- vim.g.gruvbox_contrast_dark = 'hard'
+    -- vim.g.tokyonight_transparent_sidebar = true
+    -- vim.g.tokyonight_transparent = true
+    -- vim.g.gruvbox_invert_selection = '0'
+    -- vim.opt.background = "dark"
+    -- print(vim.g.colorscheme)
+    -- print(original_colorscheme)
+    -- -- vim.cmd("colorscheme " .. vim.g.colorscheme)
+    -- -- vim.cmd(c)
+    -- local hl = function(thing, opts)
+    --     vim.api.nvim_set_hl(0, thing, opts)
+    -- end
+    --
+    -- hl("SignColumn", {
+    --     bg = "none",
+    -- })
+    --
+    -- hl("ColorColumn", {
+    --     ctermbg = 0,
+    --     bg = "#555555",
+    -- })
+    --
+    -- hl("CursorLineNR", {
+    --     bg = "None"
+    -- })
+    --
+    -- hl("Normal", {
+    --     bg = "none"
+    -- })
+    --
+    -- hl("LineNr", {
+    --     fg = "#5eacd3"
+    -- })
+    --
+    -- hl("netrwDir", {
+    --     fg = "#5eacd3"
+    -- })
     vim.api.nvim_exec([[ colorscheme ]] .. original_colorscheme, false)
-    local hl = function(thing, opts)
-        vim.api.nvim_set_hl(0, thing, opts)
-    end
-
-    hl("SignColumn", {
-        bg = "none",
-    })
-
-    hl("ColorColumn", {
-        ctermbg = 0,
-        bg = "#555555",
-    })
-
-    hl("CursorLineNR", {
-        bg = "None"
-    })
-
-    hl("Normal", {
-        bg = "none"
-    })
-
-    hl("LineNr", {
-        fg = "#5eacd3"
-    })
-
-    hl("netrwDir", {
-        fg = "#5eacd3"
-    })
 end
 
 -- vim.defer_fn(function() ColorMyPencils() end, 500)

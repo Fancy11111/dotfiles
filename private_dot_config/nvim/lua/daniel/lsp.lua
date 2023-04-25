@@ -67,17 +67,25 @@ require('luasnip.loaders.from_vscode').lazy_load()
 
 lsp.setup_nvim_cmp({
     sources = {
-        { name = 'path' },
         { name = 'nvim_lsp', keyword_length = 1 },
-        { name = 'buffer',   keyword_length = 3 },
         { name = 'luasnip',  keyword_length = 2 },
+        { name = 'path' },
         { name = 'nvim_lua', keyword_length = 1 },
         { name = 'jdtls' },
+        { name = 'buffer',   keyword_length = 3 },
         -- { name = 'cmdline',  keyword_length = 2 }
+    },
+    formatting = {
+        fields = { 'abbr', 'kind', 'menu' },
+        format = require('lspkind').cmp_format({
+            mode = 'symbol', -- show only symbol annotations
+            maxwidth = 50, -- prevent the popup from showing more than provided characters
+            ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead
+        })
     },
     mapping = {
         -- confirm selection
-        ['<CR>'] = cmp.mapping.confirm({ select = true }),
+        ['<CR>'] = cmp.mapping.confirm({ select = false }),
         ['<C-y>'] = cmp.mapping.confirm({ select = true }),
 
         -- navigate items on the list
@@ -92,58 +100,61 @@ lsp.setup_nvim_cmp({
 
         -- toggle completion
         ['<C-e>'] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-                cmp.abort()
-                fallback()
-            else
-                cmp.complete()
-            end
+          if cmp.visible() then
+            cmp.abort()
+            fallback()
+          else
+            cmp.complete()
+          end
         end),
 
         -- go to next placeholder in the snippet
         ['<C-l>'] = cmp.mapping(function(fallback)
-            if luasnip.jumpable(1) then
-                luasnip.jump(1)
-            else
-                fallback()
-            end
+          if luasnip.jumpable(1) then
+            luasnip.jump(1)
+          else
+            fallback()
+          end
         end, { 'i', 's' }),
 
         -- go to previous placeholder in the snippet
         ['<C-b>'] = cmp.mapping(function(fallback)
-            if luasnip.jumpable( -1) then
-                luasnip.jump( -1)
-            else
-                fallback()
-            end
+          if luasnip.jumpable( -1) then
+            luasnip.jump( -1)
+          else
+            fallback()
+          end
         end, { 'i', 's' }),
 
         -- when menu is visible, navigate to next item
         -- when line is empty, insert a tab character
         -- else, activate completion
         ['<Tab>'] = cmp.mapping(function(fallback)
-            local col = vim.fn.col('.') - 1
-
-            if cmp.visible() then
-                cmp.select_next_item(cmp_select_opts)
-                -- elseif col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
-            else
-                fallback()
-                -- cmp.complete()
-            end
+          local col = vim.fn.col('.') - 1
+          if cmp.visible() then
+            cmp.select_next_item(select_opts)
+            -- elseif col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
+          else
+            fallback()
+            -- cmp.complete()
+          end
         end, { 'i', 's' }),
 
         -- when menu is visible, navigate to previous item on list
         -- else, revert to default behavior
         ['<S-Tab>'] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-                cmp.select_prev_item(cmp_select_opts)
-            else
-                fallback()
-            end
+          if cmp.visible() then
+            cmp.select_prev_item(select_opts)
+          else
+            fallback()
+          end
         end, { 'i', 's' }),
     }
 })
 
 
 lsp.setup()
+
+vim.diagnostic.config({
+    virtual_text = true
+})
