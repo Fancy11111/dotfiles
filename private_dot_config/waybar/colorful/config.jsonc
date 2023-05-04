@@ -1,0 +1,119 @@
+{
+    "position": "top",
+    "modules-left": [
+        "wlr/workspaces"
+    ],
+    "modules-right": [
+        "network",
+        "pulseaudio",
+        "battery",
+        "backlight",
+        "clock"
+    ],
+    // Modules configuration
+    "wlr/workspaces": {
+        "on-scroll-up": "hyprctl dispatch workspace e+1",
+        "on-scroll-down": "hyprctl dispatch workspace e-1",
+        "all-outputs": false,
+        "format": "{icon}",
+        "persistent_workspaces": {
+            "1": [],
+            "2": [],
+            "3": [],
+            "4": [],
+            "5": [],
+            "6": [],
+            "7": [],
+            "8": [],
+            "9": [],
+            "10": []
+        },
+        "format-icons": {
+            "1": "⌂",
+            "2": "🖹",
+            "3": "✉",
+            "4": "🌐",
+            "5": "5",
+            "6": "6",
+            "7": "🕪",
+            "8": "8",
+            "9": "9",
+            "10": "10"
+        },
+        "on-click": "activate"
+    },
+    "clock": {
+        "format": "<span size='17500' background='#080808' foreground='#9fe5d8'></span><span foreground='#080808' background='#9fe5d8' size='13000'>  </span><span foreground='#080808' background='#79dac8'> {:%H:%M} </span><span size='17500' background='#080808' foreground='#79dac8'></span>",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "format-alt": "<span size='17500' background='#080808' foreground='#9fe5d8'></span><span foreground='#080808' background='#9fe5d8' size='13000'>  </span><span foreground='#080808' background='#79dac8'> {:%Y-%m-%d} </span><span size='17500' background='#080808' foreground='#79dac8'></span>"
+    },
+    "battery": {
+        "states": {
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "<span size='17500' foreground='#5bd2a6' background='#080808'></span><span foreground='#080808' background='#5bd2a6' size='13000'> {icon} </span><span foreground='#080808' background='#36c692'> {capacity}% </span><span size='17500' foreground='#36c692' background='#080808'></span>",
+        "format-warning": "<span size='17500' foreground='#ff8585' background='#080808'></span><span foreground='#080808' background='#ff8585' size='13000'> {icon} </span><span foreground='#080808' background='#ff5454'> {capacity}% </span><span size='17500' foreground='#ff5454' background='#080808'></span>",
+        "format-critical": "<span size='17500' foreground='#ff8585' background='#080808'></span><span foreground='#080808' background='#ff8585' size='13000'> {icon} </span><span foreground='#080808' background='#ff5454'> {capacity}% </span><span size='17500' foreground='#ff5454' background='#080808'></span>",
+        "format-charging": "<span size='17500' foreground='#5bd2a6' background='#080808'></span><span foreground='#080808' background='#5bd2a6' size='13000'>  </span><span foreground='#080808' background='#36c692'> {capacity}% </span><span size='17500' foreground='#36c692' background='#080808'></span>",
+        "format-plugged": "<span size='17500' foreground='#5bd2a6' background='#080808'></span><span foreground='#080808' background='#5bd2a6' size='13000'>  </span><span foreground='#080808' background='#36c692'> {capacity}% </span><span size='17500' foreground='#36c692' background='#080808'></span>",
+        "format-alt": "<span size='17500' foreground='#5bd2a6' background='#080808'></span><span foreground='#080808' background='#5bd2a6' size='13000'> {icon} </span><span foreground='#080808' background='#36c692'> {time} </span><span size='17500' foreground='#36c692' background='#080808'></span>",
+        "format-full": "<span size='17500' foreground='#5bd2a6' background='#080808'></span><span foreground='#080808' background='#5bd2a6' size='13000'>  </span><span foreground='#080808' background='#36c692'> {capacity}% </span><span size='17500' foreground='#36c692' background='#080808'></span>",
+        "format-icons": [
+            "",
+            "",
+            "",
+            "",
+            ""
+        ]
+    },
+    "network": {
+        "format-wifi": "<span size='17500' foreground='#eddbb5' background='#080808'></span><span foreground='#080808' background='#eddbb5' size='13000'>  </span><span foreground='#080808' background='#e3c78a'> {essid} </span><span size='17500' foreground='#e3c78a' background='#080808'></span>",
+        "format-ethernet": " 󰤭 Disconnected",
+        "format-linked": "{ifname} (No IP) ",
+        "format-disconnected": "<span size='17500' foreground='#eddbb5' background='#080808'></span><span foreground='#080808' background='#eddbb5' size='13000'>  </span><span foreground='#080808' background='#e3c78a'> Disconnected </span><span size='17500' foreground='#e3c78a' background='#080808'></span>",
+        "tooltip-format-wifi": " Signal Strenght: {signalStrength}%"
+    },
+    "pulseaudio": {
+        "on-click": "pactl set-sink-mute $(pactl list | rg 'Sink #' | sed 's/Sink #//') toggle",
+        "format": "<span size='17500' foreground='#f5baa8' background='#080808'></span><span foreground='#080808' background='#f5baa8' size='13000'> {icon} </span><span foreground='#080808' background='#f09479'> {volume}% </span><span size='17500' foreground='#f09479' background='#080808'></span>",
+        "format-muted": "<span size='17500' foreground='#f5baa8' background='#080808'></span><span foreground='#080808' background='#f5baa8' size='13000'>  </span><span foreground='#080808' background='#f09479'> Muted </span><span size='17500' foreground='#f09479' background='#080808'></span>",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": [
+                "",
+                ""
+            ]
+        }
+    },
+    "mpd": {
+        "format": "<span size='17500' foreground='#ea8fa3' background='#080808'></span><span foreground='#080808' background='#ea8fa3' size='13000'> {stateIcon} </span><span foreground='#080808' background='#e2637f'> {title} </span><span size='17500' foreground='#e2637f' background='#080808'></span>",
+        "format-disconnected": "<span size='17500' foreground='#ea8fa3' background='#080808'></span><span foreground='#080808' background='#ea8fa3' size='13000'>  </span><span foreground='#080808' background='#e2637f'> awkward silence </span><span size='17500' foreground='#e2637f' background='#080808'></span>",
+        "format-stopped": "<span size='17500' foreground='#ea8fa3' background='#080808'></span><span foreground='#080808' background='#ea8fa3' size='13000'>  </span><span foreground='#080808' background='#e2637f'> awkward silence </span><span size='17500' foreground='#e2637f' background='#080808'></span>",
+        "on-click": "mpc toggle",
+        "state-icons": {
+            "playing": "",
+            "paused": ""
+        }
+    },
+    "backlight": {
+        // "device": "acpi_video1",
+        "format": "<span size='17500' foreground='#eddbb5' background='#080808'></span><span foreground='#080808' background='#eddbb5' size='13000'> {icon} </span><span foreground='#080808' background='#e3c78a'> {percent}% </span><span size='17500' foreground='#e3c78a' background='#080808'></span>",
+        "format-icons": [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+        ]
+    }
+}
