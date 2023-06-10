@@ -1,0 +1,12 @@
+(defpoll keybinds :interval "60s" :initial "keybinds" `cat ~/.config/helper/keybinds.txt`)
+
+(defwindow keybind-helper
+  :stacking "bg"
+  :focusable true
+  :monitor 0
+  :exclusive true
+  :geometry (geometry :width "25%" :height "90%" :anchor "center") 
+  :reserve true
+  :wm-ignore false
+  (scroll :hscroll false :vscroll true(box :orientation "horizontal" :vexpand true :hexpand true :valign "fill" :haling "fill" keybinds))
+)

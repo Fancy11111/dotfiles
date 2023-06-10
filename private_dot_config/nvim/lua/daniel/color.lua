@@ -1,5 +1,5 @@
 -- vim.g.colorscheme = "tokyonight"
-local original_colorscheme = "terafox"
+local original_colorscheme = "nord"
 vim.g.colorscheme = original_colorscheme
 
 local colorschemes = {
@@ -8,7 +8,9 @@ local colorschemes = {
     "nightfox", "duskfox", "nordfox", "terafox", "carbonfox",
     "catppuccin-frappe", "catppuccin-macchiato", "catppuccin-mocha",
     "gruvbox",
-    "synthwave84"
+    "synthwave84",
+    "nord",
+    "bamboo"
 }
 
 
@@ -20,10 +22,11 @@ end
 
 local function setColor(color, temp)
     vim.g.colorscheme = color
-    vim.api.nvim_exec([[ colorscheme ]] .. color, false)
+    vim.api.nvim_exec2([[ colorscheme ]] .. color, {})
     if temp then
         original_colorscheme = color
     end
+    vim.cmd.highlight("Normal guibg=none")
 end
 
 function ChooseColor()
@@ -121,7 +124,8 @@ function ColorMyPencils()
     -- hl("netrwDir", {
     --     fg = "#5eacd3"
     -- })
-    vim.api.nvim_exec([[ colorscheme ]] .. original_colorscheme, false)
+    vim.api.nvim_exec2([[ colorscheme ]] .. original_colorscheme, {})
+    vim.cmd.highlight("Normal guibg=none")
 end
 
 -- vim.defer_fn(function() ColorMyPencils() end, 500)

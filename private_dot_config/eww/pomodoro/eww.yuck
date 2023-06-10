@@ -1,0 +1,17 @@
+(defpoll status :interval "1s"
+  `pomodoro status`)
+
+
+(defwindow pomodoro
+           :monitor 0
+           :geometry (geometry :x "0px"
+                               :y "0px"
+                               :width "100px"
+                               :height "30px"
+                               :anchor "bottom left")
+           :stacking "overlay"
+           :exclusive false
+           :focusable false
+           :namespace "Pomodoro Timer"
+  "${status}")
+

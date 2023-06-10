@@ -12,7 +12,7 @@ keymap({ "n", "v" }, "<leader>ca", "<cmd>Lspsaga code_action<CR>")
 -- Rename all occurrences of the hovered word for the entire file
 keymap("n", "gr", "<cmd>Lspsaga rename<CR>")
 
-keymap("n", "ga", "<cmd>Lspsaga code_action<CR>", {noremap = true, desc = "Code actions"})
+keymap("n", "ga", "<cmd>Lspsaga code_action<CR>", { noremap = true, desc = "Code actions" })
 
 -- Rename all occurrences of the hovered word for the selected files
 keymap("n", "gr", "<cmd>Lspsaga rename ++project<CR>")
@@ -46,10 +46,10 @@ keymap("n", "]e", "<cmd>Lspsaga diagnostic_jump_next<CR>")
 
 -- Diagnostic jump with filters such as only jumping to an error
 keymap("n", "[E", function()
-    require("lspsaga.diagnostic"):goto_prev({ severity = vim.diagnostic.severity.ERROR })
+  require("lspsaga.diagnostic"):goto_prev({ severity = vim.diagnostic.severity.ERROR })
 end)
 keymap("n", "]E", function()
-    require("lspsaga.diagnostic"):goto_next({ severity = vim.diagnostic.severity.ERROR })
+  require("lspsaga.diagnostic"):goto_next({ severity = vim.diagnostic.severity.ERROR })
 end)
 
 -- Toggle outline
@@ -77,7 +77,32 @@ keymap("n", "<Leader>co", "<cmd>Lspsaga outgoing_calls<CR>")
 -- Floating terminal
 keymap({ "n", "t" }, "<A-d>", "<cmd>Lspsaga term_toggle<CR>")
 
-keymap("n", "cc", function()
-    require("dap").toggle_breakpoint()
+keymap("n", "<leader>db", "<cmd>DapToggleBreakpoint<CR>", { desc = "Toggle breakpoint" })
+keymap("n", "<leader>dus", function()
+  local widgets = require("dap.ui.widgets")
+  local sidebar = widgets.sidebar(widgets.scopes)
+  sidebar.open()
 end)
 
+vim.keymap.del("n", "<leader>d")
+
+local widgets = require("dap.ui.widgets")
+local sidebar = widgets.sidebar(widgets.scopes)
+
+keymap("n", "<leader>dut", function()
+  sidebar.toggle()
+end)
+
+keymap("n", "<leader>dgt", function()
+  require("dap-go").debug_test()
+end, {
+  desc = "Debug go test"
+})
+keymap("n", "<leader>dgl", function()
+  require("dap-go").debug_last()
+end, {
+  desc = "Debug last go test"
+})
+
+keymap("n", "<leader>gsj", "<cmd>GoTagAdd json<CR>", { desc = "Add json struct tags" })
+keymap("n", "<leader>gsy", "<cmd>GoTagAdd yaml<CR>", { desc = "Add yaml struct tags" })
