@@ -5,25 +5,26 @@
 let-env PATH = "~/bin,~/.bin,~/.local/bin,~/.bun/bin,~/.cargo/bin"
 let-env EDITOR = "nvim"
 
-let-env ASSUME_NO_MOVING_GC_UNSAFE_RISK_IT_WITH "go1.20"
-let-env PF_INFO "ascii title os uptime pkgs wm shell editor"
-let-env BAT_THEME "gruvbox-dark"
+let-env ASSUME_NO_MOVING_GC_UNSAFE_RISK_IT_WITH = "go1.20"
+let-env PF_INFO = "ascii title os uptime pkgs wm shell editor"
+let-env BAT_THEME = "gruvbox-dark"
 
 let-env STARSHIP_SHELL = "nu"
 
 def create_left_prompt [] {
-    starship prompt --cmd-duration $env.CMD_DURATION_MS $'--status=($env.LAST_EXIT_CODE)'
+    /usr/bin/starship prompt --cmd-duration $env.CMD_DURATION_MS $'--status=($env.LAST_EXIT_CODE)'
 }
 
 # Use nushell functions to define your right and left prompt
-let-env PROMPT_COMMAND = {|| create_left_prompt }
+let-env PROMPT_COMMAND = { || create_left_prompt }
+let-env PROMPT_COMMAND_RIGHT = ""
 
 # The prompt indicators are environmental variables that represent
 # the state of the prompt
-let-env PROMPT_INDICATOR = {|| "> " }
-let-env PROMPT_INDICATOR_VI_INSERT = {|| ": " }
-let-env PROMPT_INDICATOR_VI_NORMAL = {|| "> " }
-let-env PROMPT_MULTILINE_INDICATOR = {|| "::: " }
+let-env PROMPT_INDICATOR = ""
+let-env PROMPT_INDICATOR_VI_INSERT = ": "
+let-env PROMPT_INDICATOR_VI_NORMAL = "〉"
+let-env PROMPT_MULTILINE_INDICATOR = "::: "
 
 # Specifies how environment variables are:
 # - converted from a string to a value on Nushell startup (from_string)

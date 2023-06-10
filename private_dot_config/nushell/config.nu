@@ -3,18 +3,18 @@
 # version = 0.80.0
 
 alias ls = exa -a --long --git
-alias dfs = "git --git-dir=$HOME/.dotfiles --work-tree=$HOME"
+alias dfs = git --git-dir=$HOME/.dotfiles --work-tree=$HOME
 #alias air = "~/go/bin/air"
 #alias matrix = "unimatrix -af -s 96"
-alias clock = "tty-clock -c"
+alias clock = tty-clock -c
 # alias thought = "fortune | pokemonthink"
 # alias strat = "aow | pokemonsay"
-alias nvim-config = "cd ~/.config/nvim && nvim ."
-alias xmonad-config = "cd ~/.config/xmonad && nvim ."
-alias fish-config = "cd ~/.config/fish && nvim ."
-alias vue-language-server = "vls"
-alias g = "git"
-alias susp = "systemctl suspend"
+alias nvim-config = cd ~/.config/nvim ; nvim .
+alias xmonad-config = cd ~/.config/xmonad ; nvim .
+alias fish-config = cd ~/.config/fish ; nvim .
+alias vue-language-server = vls
+alias g = git
+alias susp = systemctl suspend
 
 
 let cursor = "#d8dee9"
