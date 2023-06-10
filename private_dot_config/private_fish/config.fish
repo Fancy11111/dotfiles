@@ -3,7 +3,7 @@ set -g theme_color_scheme nord
 set -gx EDITOR nvim
 set -gx ASSUME_NO_MOVING_GC_UNSAFE_RISK_IT_WITH go1.20
 set -gx PF_INFO "ascii title os uptime pkgs wm shell editor"
-set -gx BAT_THEME catppuccin
+set -gx BAT_THEME gruvbox-dark
 
 abbr -a -- - "cd -"
 abbr -a -- n "alacritty &"
@@ -35,10 +35,11 @@ set GOPATH "$(go env GOPATH)"
 set PATH "$(go env GOPATH)/bin" $PATH
 # bass export PATH=$PATH:$(npm config --global get prefix)/bin
 
-starship init fish | source
 # neofetch
 
 # pnpm
 set -gx PNPM_HOME "/home/daniel/.local/share/pnpm"
 set -gx PATH "$PNPM_HOME" $PATH
 # pnpm end
+
+starship init fish | source

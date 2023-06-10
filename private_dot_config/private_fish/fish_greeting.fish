@@ -1,4 +1,5 @@
 function fish_greeting
-	echo
-	pfetch
+	# echo
+	# pfetch
+    clear
 end
