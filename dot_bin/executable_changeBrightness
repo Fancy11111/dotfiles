@@ -1,0 +1,10 @@
+#!/bin/bash
+# changeBrightness
+
+# Arbitrary but unique message tag
+msgTag="mybrightness"
+
+# Query amixer for the current volume and whether or not the speaker is muted
+volume="$(brightnessctl info | tail -3 | head -1 | awk '{print $4}' | sed 's/[^0-9]*//g')"
+dunstify -a "changeBrightness" -u low -i audio-volume-high -h string:x-dunst-stack-tag:$msgTag \
+    -h int:value:"$volume" "Brighntess: ${volume}%"

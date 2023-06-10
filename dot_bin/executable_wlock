@@ -1,1 +1,4 @@
-systemctl suspend && swaylock -k -F -e -l -L -i ~/Pictures/desktop/nebula.jpg
+#! /bin/bash
+swaylock -k -F -e -l -L --clock --effect-blur 10x10 -i ~/Pictures/desktop/nebula.jpg &
+sleep 0.5
+systemctl suspend 

@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+pl=~/.local/share/tmux-sessionizer/projectlist
+
+if [[ $# -eq 1 ]]; then
+    project=$1
+else
+    project=$(pwd)
+fi
+
+exists=$(grep "^$project/\?\$" $pl)
+
+if [[ $? -eq 0 ]]; then
+    sed -i "\~$project~d" $pl
+else
+    echo "$project" > $pl
+fi
+
