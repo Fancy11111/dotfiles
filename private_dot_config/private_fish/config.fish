@@ -43,3 +43,7 @@ set -gx PATH "$PNPM_HOME" $PATH
 # pnpm end
 
 starship init fish | source
+
+# >>> coursier install directory >>>
+set -gx PATH "$PATH:/home/daniel/.local/share/coursier/bin"
+# <<< coursier install directory <<<

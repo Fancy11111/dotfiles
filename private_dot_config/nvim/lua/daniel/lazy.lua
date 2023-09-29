@@ -122,6 +122,10 @@ local plugins = {
   'hrsh7th/cmp-cmdline',
   'saadparwaiz1/cmp_luasnip',
   'hrsh7th/cmp-nvim-lua',
+  {
+    'scalameta/nvim-metals',
+    requires = { 'nvim-lua/plenary.nvim' }
+  },
   'github/copilot.vim',
   {
     'windwp/nvim-autopairs',

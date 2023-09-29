@@ -46,10 +46,10 @@ keymap("n", "]e", "<cmd>Lspsaga diagnostic_jump_next<CR>")
 
 -- Diagnostic jump with filters such as only jumping to an error
 keymap("n", "[E", function()
-  require("lspsaga.diagnostic"):goto_prev({ severity = vim.diagnostic.severity.ERROR })
+	require("lspsaga.diagnostic"):goto_prev({ severity = vim.diagnostic.severity.ERROR })
 end)
 keymap("n", "]E", function()
-  require("lspsaga.diagnostic"):goto_next({ severity = vim.diagnostic.severity.ERROR })
+	require("lspsaga.diagnostic"):goto_next({ severity = vim.diagnostic.severity.ERROR })
 end)
 
 -- Toggle outline
@@ -79,9 +79,9 @@ keymap({ "n", "t" }, "<A-d>", "<cmd>Lspsaga term_toggle<CR>")
 
 keymap("n", "<leader>db", "<cmd>DapToggleBreakpoint<CR>", { desc = "Toggle breakpoint" })
 keymap("n", "<leader>dus", function()
-  local widgets = require("dap.ui.widgets")
-  local sidebar = widgets.sidebar(widgets.scopes)
-  sidebar.open()
+	local widgets = require("dap.ui.widgets")
+	local sidebar = widgets.sidebar(widgets.scopes)
+	sidebar.open()
 end)
 
 vim.keymap.del("n", "<leader>d")
@@ -90,18 +90,18 @@ local widgets = require("dap.ui.widgets")
 local sidebar = widgets.sidebar(widgets.scopes)
 
 keymap("n", "<leader>dut", function()
-  sidebar.toggle()
+	sidebar.toggle()
 end)
 
 keymap("n", "<leader>dgt", function()
-  require("dap-go").debug_test()
+	require("dap-go").debug_test()
 end, {
-  desc = "Debug go test"
+	desc = "Debug go test",
 })
 keymap("n", "<leader>dgl", function()
-  require("dap-go").debug_last()
+	require("dap-go").debug_last()
 end, {
-  desc = "Debug last go test"
+	desc = "Debug last go test",
 })
 
 keymap("n", "<leader>gsj", "<cmd>GoTagAdd json<CR>", { desc = "Add json struct tags" })
