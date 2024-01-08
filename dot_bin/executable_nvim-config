@@ -1,0 +1,4 @@
+#! /bin/sh
+
+tmux new-session -A -s "nvim-config" -c ~/.config/nvim
+
