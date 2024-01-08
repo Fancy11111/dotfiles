@@ -36,6 +36,18 @@ local metals_config = require("metals").bare_config()
 metals_config.setting = {
 	useGlobalExecutable = true,
 }
+--
+-- local nvim_metals_group = vim.api.nvim_create_augroup("nvim-metals", { clear = true })
+-- vim.api.nvim_create_autocmd("FileType", {
+-- 	-- NOTE: You may or may not want java included here. You will need it if you
+-- 	-- want basic Java support but it may also conflict if you are using
+-- 	-- something like nvim-jdtls which also works on a java filetype autocmd.
+-- 	pattern = { "scala", "sbt" },
+-- 	callback = function()
+-- 		require("metals").initialize_or_attach(metals_config)
+-- 	end,
+-- 	group = nvim_metals_group,
+-- })
 
 local lsp = require("lsp-zero").preset({
 	name = "minimal",
@@ -52,6 +64,35 @@ lsp.configure("lua_lsp", {
 			},
 		},
 	},
+})
+
+local augroup_codelens = vim.api.nvim_create_augroup("custom-lsp-codelens", { clear = true })
+local codelens_helpers = require("daniel.lsp.codelens")
+
+lsp.configure("ocamllsp", {
+	on_init = function(client, bufnr)
+		vim.api.nvim_clear_autocmds({ group = augroup_codelens, buffer = 0 })
+		vim.keymap.set(
+			"n",
+			"<space>tt",
+			require("daniel.lsp.codelens").toggle_virtlines,
+			{ silent = true, desc = "Toggle Codelens" }
+		)
+		vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePos", "CursorHold" }, {
+			group = augroup_codelens,
+			callback = function()
+				print("callback")
+				-- codelens_helpers.refresh_virtlines()
+			end,
+			buffer = 0,
+		})
+	end,
+	settings = {
+		codelens = { enable = true },
+	},
+	get_language_id = function(_, ftype)
+		return ftype
+	end,
 })
 
 lsp.configure("metals", { force_setup = true })
