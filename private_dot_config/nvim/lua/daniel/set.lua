@@ -30,3 +30,4 @@ vim.opt.undofile = true -- enable persistent undo
 vim.opt.clipboard = "unnamedplus"
 
 vim.api.nvim_exec2([[ set rtp^="/home/daniel/.opam/default/share/ocp-indent/vim" ]], {})
+vim.filetype.add({ extension = { templ = "templ" } })

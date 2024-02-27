@@ -3,7 +3,6 @@ vim.g.mapleader = " "
 local keymap = vim.keymap.set
 
 keymap("n", "<Leader>pv", vim.cmd.Ex)
-keymap("n", "<leader>pf", ":Telescope file_browser<CR>", { desc = "Open Telescope File Browser", noremap = true })
 keymap("n", "<C-a>", "gg<S-v>G")
 keymap("n", "U", ":redo<CR>", { noremap = true })
 
@@ -27,9 +26,6 @@ keymap("t", "<esc>", "<C-\\><C-n>")
 
 keymap("n", "Q", "<nop>", { desc = "", noremap = true })
 keymap("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>", { desc = "" })
-keymap("n", "<leader>f", function()
-  vim.lsp.buf.format()
-end, { desc = "Format buffer" })
 
 keymap("n", "<C-d>", "<C-d>zz", { desc = "Jump 20 lines down", noremap = true })
 keymap("n", "<C-u>", "<C-u>zz", { desc = "Jump 20 lines up", noremap = true })
@@ -41,15 +37,15 @@ keymap("n", "tc", ":tab split<CR>", { desc = "open current file in new buffer", 
 keymap("n", "tn", ":tabn<CR>", { desc = "goto next buffer", noremap = true })
 keymap("n", "tb", ":tabp<CR>", { desc = "goto prev buffer", noremap = true })
 
-keymap("n", "<leader>y", "\"+y", { desc = "", noremap = true })
-keymap("v", "<leader>y", "\"+y", { desc = "", noremap = true })
-keymap("n", "<leader>Y", "\"+Y", { desc = "" })
+keymap("n", "<leader>y", '"+y', { desc = "", noremap = true })
+keymap("v", "<leader>y", '"+y', { desc = "", noremap = true })
+keymap("n", "<leader>Y", '"+Y', { desc = "" })
 
-keymap("n", "<leader>d", "\"_d", { desc = "", noremap = true })
-keymap("v", "<leader>d", "\"_d", { desc = "", noremap = true })
+keymap("n", "<leader>d", '"_d', { desc = "", noremap = true })
+keymap("v", "<leader>d", '"_d', { desc = "", noremap = true })
 
 keymap("n", "<leader>u", vim.cmd.UndotreeToggle, { desc = "Toggle Undotree", noremap = true })
 
-require("daniel.remap.lspsaga")
-require("daniel.remap.telescope")
-require("daniel.remap.harpoon")
+-- require("daniel.remap.lspsaga")
+-- require("daniel.remap.telescope")
+-- require("daniel.remap.harpoon"
