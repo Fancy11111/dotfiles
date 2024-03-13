@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+msgTag="pomodoro"
+status=$(pomodoro status --format "%d")
+dunstify -a "Pomodoro" "Pomodoro timer finished!" "$status"
+

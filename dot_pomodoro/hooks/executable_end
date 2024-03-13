@@ -1,0 +1,3 @@
+#!/bin/bash
+
+$(~/.pomodoro/hooks/endd/dunst)
