@@ -166,7 +166,8 @@ lsp.setup_nvim_cmp({
 	},
 	mapping = {
 		-- confirm selection
-		["<CR>"] = cmp.mapping.confirm({ select = false }),
+		-- ["<CR>"] = cmp.mapping.confirm({ select = false }),
+		["<CR>"] = cmp.mapping.confirm({ select = true }),
 		["<C-y>"] = cmp.mapping.confirm({ select = true }),
 
 		-- navigate items on the list

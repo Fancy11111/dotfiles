@@ -390,6 +390,8 @@ return {
 		})
 		lsp.configure("metals", { force_setup = true })
 
+		lsp.configure("lua_ls", {})
+
 		lsp.configure("volar", {
 			filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
 		})
