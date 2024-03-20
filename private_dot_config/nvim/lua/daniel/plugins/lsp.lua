@@ -9,6 +9,7 @@ return {
 			end,
 		},
 		{ "WhoIsSethDaniel/mason-tool-installer.nvim" },
+		{ "WhoIsSethDaniel/mason-lspconfig.nvim" },
 		{
 			"nvimdev/lspsaga.nvim",
 			event = "BufRead",
@@ -155,19 +156,12 @@ return {
 
 		-- List out the lsp servers, linters, formatters
 		-- for mason
+
 		local tools = {
-			"lua-language-server",
-			"typescript-language-server",
-			"tailwindcss-language-server",
-			"html-lsp",
-			"css-lsp",
-			"json-lsp",
-			"gopls",
-			"python-lsp-server",
 			"black",
+			"eslint_d",
 			"stylua",
 			"prettier",
-			"eslint_d",
 		}
 
 		require("mason-tool-installer").setup({ ensure_installed = tools })
@@ -199,17 +193,12 @@ return {
 			pathStrict = true,
 		})
 
-		local metals_config = require("metals").bare_config()
 		-- metals_config.settings = {
 		-- showImplicitArguments = true,
 		-- excludedPackages = { "akka.actor.typed.javadsl", "com.github.swagger.akka.javadsl" },
 		-- }
 
 		-- metals_config.init_options.statusBarProvider = "on"
-
-		metals_config.setting = {
-			useGlobalExecutable = true,
-		}
 
 		local lsp_zero = require("lsp-zero")
 		lsp_zero.on_attach(on_attach)
@@ -220,62 +209,81 @@ return {
 		})
 
 		local lsp = require("lspconfig")
-    require('mason').setup({})
+		require("mason").setup({})
 
+		local servers = {
+			"cssls",
+			"gopls",
+			"html",
+			"jsonls",
+			"jdtls",
+			"lua_ls",
+			"ocamllsp",
+			"templ",
+			-- "pylsp",
+			"tsserver",
+			"tailwindcss",
+		}
 
 		local augroup_codelens = vim.api.nvim_create_augroup("custom-lsp-codelens", { clear = true })
 		local codelens_helpers = require("daniel.lsp.codelens")
-    
-    require("mason-lspconfig").setup({
-      ensure_installed = servers,
-      handlers = {
-        lsp_zero.default_setup,
-        ocamllsp = function()
-          lsp.ocamllsp.setup({
-            on_init = function(client, bufnr)
-				vim.api.nvim_clear_autocmds({ group = augroup_codelens, buffer = 0 })
-				vim.keymap.set(
-					"n",
-					"<space>tt",
-					require("daniel.lsp.codelens").toggle_virtlines,
-					{ silent = true, desc = "Toggle Codelens" }
-				)
-				vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePos", "CursorHold" }, {
-					group = augroup_codelens,
-					callback = function()
-						print("callback")
-						-- codelens_helpers.refresh_virtlines()
-					end,
-					buffer = 0,
-				})
-			end,
-settings = {
-				codelens = { enable = true },
+
+		require("mason-lspconfig").setup({
+			ensure_installed = servers,
+			handlers = {
+				lsp_zero.default_setup,
+				ocamllsp = function()
+					lsp.ocamllsp.setup({
+						on_init = function(client, bufnr)
+							vim.api.nvim_clear_autocmds({ group = augroup_codelens, buffer = 0 })
+							vim.keymap.set(
+								"n",
+								"<space>tt",
+								require("daniel.lsp.codelens").toggle_virtlines,
+								{ silent = true, desc = "Toggle Codelens" }
+							)
+							vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePos", "CursorHold" }, {
+								group = augroup_codelens,
+								callback = function()
+									print("callback")
+									-- codelens_helpers.refresh_virtlines()
+								end,
+								buffer = 0,
+							})
+						end,
+						settings = {
+							codelens = { enable = true },
+						},
+						get_language_id = function(_, ftype)
+							return ftype
+						end,
+					})
+				end,
+				metals = lsp_zero.noop,
+				jdtls = lsp_zero.noop,
 			},
-			get_language_id = function(_, ftype)
-				return ftype
+		})
+
+		local metals_config = require("metals").bare_config()
+		metals_config.capabilities = lsp_zero.get_capabilities()
+
+		metals_config.setting = {
+			useGlobalExecutable = true,
+		}
+
+		local metals_augroup = vim.api.nvim_create_augroup("nvim-metals", { clear = true })
+		vim.api.nvim_create_autocmd("FileType", {
+			group = metals_augroup,
+			pattern = { "scala", "sbt", "java" },
+			callback = function()
+				require("metals").initialize_or_attach(metals_config)
 			end,
-
-          })
-        end,
-        metals = function()
-          lsp.metals.setup({
-            force_setup = true
-          })
-        end
-      }
-    })
-
-
-		lsp.configure("metals", { force_setup = true })
-
+		})
 
 		require("go").setup({
 			lsp_cfg = true,
 			-- lsp_on_attach = on_attach,
 		})
-
-		lsp.setup()
 
 		-- Linter/Formatter registeration via null-ls
 		local null_ls = require("null-ls")
@@ -298,10 +306,20 @@ settings = {
 		end
 
 		local cmp = require("cmp")
+		local cmp_format = require("lsp-zero").cmp_format({ details = true })
 		local select_ops = {
 			behavior = cmp.SelectBehavior.Select,
 		}
-		lsp.setup_nvim_cmp({
+		cmp.setup({
+			sources = {
+				{ name = "nvim_lsp" },
+				{ name = "nvim_lsp", keyword_length = 1 },
+				{ name = "luasnip", keyword_length = 2 },
+				{ name = "path" },
+				{ name = "nvim_lua", keyword_length = 1 },
+				{ name = "jdtls" },
+				{ name = "buffer", keyword_length = 3 },
+			},
 			performance = { debounce = 500 },
 			mapping = {
 				["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
@@ -334,18 +352,10 @@ settings = {
 				completion = cmp.config.window.bordered(),
 				documentation = cmp.config.window.bordered(),
 			},
-			formatting = {
-				format = function(entry, item)
-					require("lspkind").cmp_format({
-						mode = "symbol_text",
-						menu = {
-							buffer = "[BUF]",
-							nvim_lsp = "[LSP]",
-							luasnip = "[SNIP]",
-							path = "[PATH]",
-						},
-					})(entry, item)
-					return require("tailwindcss-colorizer-cmp").formatter(entry, item)
+			formatting = cmp_format,
+			snippet = {
+				expand = function(args)
+					require("luasnip").lsp_expand(args.body)
 				end,
 			},
 		})
