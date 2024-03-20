@@ -1,73 +1,4 @@
-return {
-	"neovim/nvim-lspconfig",
-	dependencies = {
-		{
-			"williamboman/mason.nvim",
-			dependencies = { "WhoIsSethDaniel/mason-tool-installer.nvim" },
-			build = function()
-				pcall(vim.cmd, "MasonUpdate")
-			end,
-		},
-		{ "WhoIsSethDaniel/mason-tool-installer.nvim" },
-		{
-			"nvimdev/lspsaga.nvim",
-			event = "BufRead",
-			config = function() end,
-			dependencies = { { "nvim-tree/nvim-web-devicons", "nvim-treesitter/nvim-treesitter" } },
-		},
-		{
-			"hrsh7th/nvim-cmp",
-			dependencies = {
-				"roobert/tailwindcss-colorizer-cmp.nvim",
-				"hrsh7th/cmp-nvim-lsp",
-				"hrsh7th/cmp-path",
-				"hrsh7th/cmp-buffer",
-				"onsails/lspkind-nvim",
-				"L3MON4D3/LuaSnip",
-				"saadparwaiz1/cmp_luasnip",
-			},
-		},
-
-		{
-			"VonHeikemen/lsp-zero.nvim",
-			branch = "v3.x",
-		},
-		{ "j-hui/fidget.nvim" },
-
-		-- DAP
-		{
-			"mfussenegger/nvim-dap",
-			dependencies = {
-				{
-					"theHamsta/nvim-dap-virtual-text",
-				},
-				"rcarriga/nvim-dap-ui",
-				{
-					"leoluz/nvim-dap-go",
-				},
-			},
-		},
-
-		-- Language specific plugins
-		{ "folke/neodev.nvim", lazy = false },
-		{ "jose-elias-alvarez/typescript.nvim", lazy = false },
-
-		{ "jose-elias-alvarez/null-ls.nvim" },
-		{
-			"ray-x/go.nvim",
-			lazy = false,
-			dependencies = { "ray-x/guihua.lua" },
-			config = function() end,
-			build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
-		},
-		{
-			"scalameta/nvim-metals",
-			requires = { "nvim-lua/plenary.nvim" },
-		},
-		-- "github/copilot.vim",
-		"mfussenegger/nvim-jdtls",
-	},
-	config = function()
+function temp()
 		local keymap = vim.keymap.set
 		local format_group = vim.api.nvim_create_augroup("LspFormatGroup", {})
 		local format_opts = { async = false, timeout_ms = 2500 }
@@ -106,7 +37,136 @@ return {
 		})
 
 		local function on_attach(client, bufnr)
-			require("daniel.lsp.keymap").setup_keymap(bufnr)
+			vim.keymap.set(
+				"n",
+				"gd",
+				"<Cmd>Lspsaga goto_definition<CR>",
+				{ buffer = bufnr, desc = "LSP go to definition" }
+			)
+
+			vim.keymap.set(
+				"n",
+				"gt",
+				"<Cmd>Lspsaga peek_type_definition<CR>",
+				{ buffer = bufnr, desc = "LSP go to type definition" }
+			)
+			vim.keymap.set(
+				"n",
+				"gD",
+				"<Cmd>lua vim.lsp.buf.declaration()<CR>",
+				{ buffer = bufnr, desc = "LSP go to declaration" }
+			)
+			vim.keymap.set(
+				"n",
+				"gi",
+				"<Cmd>lua vim.lsp.buf.implementation()<CR>",
+				{ buffer = bufnr, desc = "LSP go to implementation" }
+			)
+
+			vim.keymap.set("n", "gw", "<Cmd>Lspsaga lsp_finder<CR>", { buffer = bufnr, desc = "LSP document symbols" })
+			vim.keymap.set(
+				"n",
+				"gW",
+				"<Cmd>lua vim.lsp.buf.workspace_symbol()<CR>",
+				{ buffer = bufnr, desc = "LSP Workspace symbols" }
+			)
+			vim.keymap.set(
+				"n",
+				"gr",
+				"<Cmd>lua vim.lsp.buf.references()<CR>",
+				{ buffer = bufnr, desc = "LSP show references" }
+			)
+
+			vim.keymap.set("n", "K", "<Cmd>Lspsaga hover_doc<CR>", { buffer = bufnr, desc = "LSP hover documentation" })
+			vim.keymap.set(
+				"n",
+				"<c-k>",
+				"<Cmd>lua vim.lsp.buf.signature_help()<CR>",
+				{ buffer = bufnr, desc = "LSP signature help" }
+			)
+
+			vim.keymap.set(
+				"n",
+				"<leader>ca",
+				"<Cmd>Lspsaga code_action<CR>",
+				{ buffer = bufnr, desc = "LSP show code actions" }
+			)
+
+			vim.keymap.set("n", "<leader>rn", "<Cmd>Lspsaga rename<CR>", { buffer = bufnr, desc = "LSP rename word" })
+
+			vim.keymap.set(
+				"n",
+				"<leader>dn",
+				"<Cmd>Lspsaga diagnostic_jump_next<CR>",
+				{ buffer = bufnr, desc = "LSP go to next diagnostic" }
+			)
+
+			vim.keymap.set(
+				"n",
+				"<leader>dp",
+				"<Cmd>Lspsaga diagnostic_jump_prev<CR>",
+				{ buffer = bufnr, desc = "LSP go to previous diagnostic" }
+			)
+			-- Diagnostic jump with filters such as only jumping to an error
+			keymap("n", "[E", function()
+				require("lspsaga.diagnostic"):goto_prev({ severity = vim.diagnostic.severity.ERROR })
+			end, { buffer = bufnr, desc = "LSP go to previous error diagnostic" })
+			keymap("n", "]E", function()
+				require("lspsaga.diagnostic"):goto_next({ severity = vim.diagnostic.severity.ERROR })
+			end, { buffer = bufnr, desc = "LSP go to next error diagnostic" })
+
+			-- Diagnostic jump
+			-- You can use <C-o> to jump back to your previous location
+			keymap(
+				"n",
+				"[e",
+				"<cmd>Lspsaga diagnostic_jump_prev<CR>",
+				{ buffer = bufnr, desc = "LSP go to previous diagnostic" }
+			)
+			keymap(
+				"n",
+				"]e",
+				"<cmd>Lspsaga diagnostic_jump_next<CR>",
+				{ buffer = bufnr, desc = "LSP go to next diagnostic" }
+			)
+
+			vim.keymap.set(
+				"n",
+				"<leader>sc",
+				"<Cmd>Lspsaga show_cursor_diagnostics<CR>",
+				{ buffer = bufnr, desc = "LSP show diagnostic under cursor" }
+			)
+
+			vim.keymap.set(
+				"n",
+				"<leader>sl",
+				"<Cmd>Lspsaga show_line_diagnostics<CR>",
+				{ buffer = bufnr, desc = "LSP show line diagnostic" }
+			)
+
+			vim.keymap.set(
+				"n",
+				"<leader>sb",
+				"<Cmd>Lspsaga show_buffer_diagnostics<CR>",
+				{ buffer = bufnr, desc = "LSP show buffer diagnostic" }
+			)
+
+			-- Call hierarchy
+			keymap("n", "<Leader>ci", "<cmd>Lspsaga incoming_calls<CR>", {
+				desc = "LSP Show incoming calls",
+				buffer = bufnr,
+			})
+			keymap("n", "<Leader>co", "<cmd>Lspsaga outgoing_calls<CR>", {
+				desc = "LSP Show outgoing calls",
+				buffer = bufnr,
+			})
+
+			-- Floating terminal
+			keymap({ "n", "t" }, "<A-d>", "<cmd>Lspsaga term_toggle<CR>", {
+				desc = "Toggle floating terminal",
+				buffer = bufnr,
+			})
+
 			-- Register formatting and autoformatting
 			-- based on lsp server
 			if client.name == "gopls" then
@@ -211,28 +271,31 @@ return {
 			useGlobalExecutable = true,
 		}
 
-		local lsp_zero = require("lsp-zero")
-		lsp_zero.on_attach(on_attach)
-		lsp_zero.set_server_config({
+		local lsp = require("lsp-zero").preset("recommended")
+		lsp.on_attach(on_attach)
+		lsp.set_server_config({
 			on_init = function(client)
 				client.server_capabilities.semanticTokensProvider = nil
 			end,
 		})
 
-		local lsp = require("lspconfig")
-    require('mason').setup({})
+		local lspconfig = require("lspconfig")
 
+		-- lsp.configure("lua_lsp", {
+		-- 	settings = {
+		-- 		Lua = {
+		-- 			completion = {
+		-- 				callSnippet = "Replace",
+		-- 			},
+		-- 		},
+		-- 	},
+		-- })
 
 		local augroup_codelens = vim.api.nvim_create_augroup("custom-lsp-codelens", { clear = true })
 		local codelens_helpers = require("daniel.lsp.codelens")
-    
-    require("mason-lspconfig").setup({
-      ensure_installed = servers,
-      handlers = {
-        lsp_zero.default_setup,
-        ocamllsp = function()
-          lsp.ocamllsp.setup({
-            on_init = function(client, bufnr)
+
+		lsp.configure("ocamllsp", {
+			on_init = function(client, bufnr)
 				vim.api.nvim_clear_autocmds({ group = augroup_codelens, buffer = 0 })
 				vim.keymap.set(
 					"n",
@@ -249,26 +312,20 @@ return {
 					buffer = 0,
 				})
 			end,
-settings = {
+			settings = {
 				codelens = { enable = true },
 			},
 			get_language_id = function(_, ftype)
 				return ftype
 			end,
-
-          })
-        end,
-        metals = function()
-          lsp.metals.setup({
-            force_setup = true
-          })
-        end
-      }
-    })
-
-
+		})
 		lsp.configure("metals", { force_setup = true })
 
+		lsp.configure("lua_ls", {})
+
+		lsp.configure("volar", {
+			filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
+		})
 
 		require("go").setup({
 			lsp_cfg = true,
@@ -395,4 +452,3 @@ settings = {
 			sidebar.open()
 		end)
 	end,
-}
