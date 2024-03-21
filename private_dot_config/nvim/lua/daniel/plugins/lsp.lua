@@ -259,7 +259,7 @@ return {
 						end,
 					})
 				end,
-				metals = lsp_zero.noop,
+				-- metals = lsp_zero.noop,
 				jdtls = lsp_zero.noop,
 			},
 		})
