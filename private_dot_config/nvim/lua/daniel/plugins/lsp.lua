@@ -67,6 +67,11 @@ return {
 		},
 		-- "github/copilot.vim",
 		"mfussenegger/nvim-jdtls",
+		{
+			"mrcjkb/haskell-tools.nvim",
+			version = "^3", -- Recommended
+			ft = { "haskell", "lhaskell", "cabal", "cabalproject" },
+		},
 	},
 	config = function()
 		local keymap = vim.keymap.set
@@ -228,6 +233,64 @@ return {
 		local augroup_codelens = vim.api.nvim_create_augroup("custom-lsp-codelens", { clear = true })
 		local codelens_helpers = require("daniel.lsp.codelens")
 
+		local metals_config = require("metals").bare_config()
+		metals_config.capabilities = lsp_zero.get_capabilities()
+
+		metals_config.setting = {
+			useGlobalExecutable = true,
+		}
+
+		local metals_augroup = vim.api.nvim_create_augroup("nvim-metals", { clear = true })
+		vim.api.nvim_create_autocmd("FileType", {
+			group = metals_augroup,
+			pattern = { "scala", "sbt", "java" },
+			callback = function()
+				require("metals").initialize_or_attach(metals_config)
+			end,
+		})
+
+		vim.g.haskell_tools = {
+			hls = {
+				capabilities = lsp_zero.get_capabilities(),
+			},
+		}
+
+		-- Autocmd that will actually be in charging of starting hls
+		local hls_augroup = vim.api.nvim_create_augroup("haskell-lsp", { clear = true })
+		vim.api.nvim_create_autocmd("FileType", {
+			group = hls_augroup,
+			pattern = { "haskell" },
+			callback = function()
+				---
+				-- Suggested keymaps from the quick setup section:
+				-- https://github.com/mrcjkb/haskell-tools.nvim#quick-setup
+				---
+
+				local ht = require("haskell-tools")
+				local bufnr = vim.api.nvim_get_current_buf()
+				local opts = { noremap = true, silent = true, buffer = bufnr }
+				-- haskell-language-server relies heavily on codeLenses,
+				-- so auto-refresh (see advanced configuration) is enabled by default
+				vim.keymap.set("n", "<space>cl", vim.lsp.codelens.run, opts)
+				-- Hoogle search for the type signature of the definition under the cursor
+				vim.keymap.set("n", "<space>hs", ht.hoogle.hoogle_signature, opts)
+				-- Evaluate all code snippets
+				vim.keymap.set("n", "<space>ea", ht.lsp.buf_eval_all, opts)
+				-- Toggle a GHCi repl for the current package
+				vim.keymap.set("n", "<leader>rr", ht.repl.toggle, opts)
+				-- Toggle a GHCi repl for the current buffer
+				vim.keymap.set("n", "<leader>rf", function()
+					ht.repl.toggle(vim.api.nvim_buf_get_name(0))
+				end, opts)
+				vim.keymap.set("n", "<leader>rq", ht.repl.quit, opts)
+			end,
+		})
+
+		require("go").setup({
+			lsp_cfg = true,
+			-- lsp_on_attach = on_attach,
+		})
+
 		require("mason-lspconfig").setup({
 			ensure_installed = servers,
 			handlers = {
@@ -262,27 +325,6 @@ return {
 				-- metals = lsp_zero.noop,
 				jdtls = lsp_zero.noop,
 			},
-		})
-
-		local metals_config = require("metals").bare_config()
-		metals_config.capabilities = lsp_zero.get_capabilities()
-
-		metals_config.setting = {
-			useGlobalExecutable = true,
-		}
-
-		local metals_augroup = vim.api.nvim_create_augroup("nvim-metals", { clear = true })
-		vim.api.nvim_create_autocmd("FileType", {
-			group = metals_augroup,
-			pattern = { "scala", "sbt", "java" },
-			callback = function()
-				require("metals").initialize_or_attach(metals_config)
-			end,
-		})
-
-		require("go").setup({
-			lsp_cfg = true,
-			-- lsp_on_attach = on_attach,
 		})
 
 		-- Linter/Formatter registeration via null-ls
