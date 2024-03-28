@@ -1,0 +1,3 @@
+#!/bin/sh
+
+PATH=~/.config/wofi-logout /usr/bin/wofi -c ~/.config/wofi-logout/config
