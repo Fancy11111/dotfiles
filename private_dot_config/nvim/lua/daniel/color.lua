@@ -1,5 +1,5 @@
 -- vim.g.colorscheme = "tokyonight"
-local original_colorscheme = "nord"
+local original_colorscheme = "bamboo"
 vim.g.colorscheme = original_colorscheme
 
 local colorschemes = {
@@ -34,7 +34,7 @@ local function setColor(color, temp)
 	if temp then
 		original_colorscheme = color
 	end
-	vim.cmd.highlight("Normal guibg=none")
+	-- vim.cmd.highlight("Normal guibg=none")
 end
 
 function ChooseColor()
@@ -76,7 +76,6 @@ function ChooseColor()
 	vim.api.nvim_create_autocmd("CursorMoved", {
 		buffer = buf,
 		callback = function()
-			print("hello")
 			local color = vim.api.nvim_get_current_line()
 			-- vim.api.nvim_win_close(window, true)
 			setColor(color, false)
@@ -142,4 +141,4 @@ end
 
 vim.api.nvim_create_user_command("ChooseColor", ChooseColor, {})
 
--- setColor(vim.g.colorscheme)
+setColor(vim.g.colorscheme)
