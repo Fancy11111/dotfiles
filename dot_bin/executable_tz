@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
 targetDir="$(fish --command "z -e $1")"
-sessionName=$(basename "$zDir")
+sessionName=$(basename "$targetDir")
 
 tmux new-session -A -s "$sessionName" -c "$targetDir"
