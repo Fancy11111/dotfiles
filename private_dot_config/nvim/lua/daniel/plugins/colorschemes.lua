@@ -93,4 +93,10 @@ return {
 		lazy = false,
 		priority = 500,
 	},
+	{
+		"eldritch-theme/eldritch.nvim",
+		lazy = false,
+		priority = 1000,
+		opts = {},
+	},
 }

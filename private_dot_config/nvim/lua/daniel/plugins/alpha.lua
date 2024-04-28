@@ -262,6 +262,7 @@ return {
 					{
 						type = "group",
 						val = {
+							button("l", " Lazy", ":Lazy<CR>"),
 							button("f", " find file", ":Telescope find_files <CR>"),
 							button(
 								"p",

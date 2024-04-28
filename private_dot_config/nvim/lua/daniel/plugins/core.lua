@@ -78,4 +78,46 @@ return {
 			require("Comment").setup()
 		end,
 	},
+	{
+		"shellRaining/hlchunk.nvim",
+		event = { "UIEnter" },
+		config = function()
+			require("hlchunk").setup({
+				line_num = {
+					enable = true,
+					notify = true,
+					use_treesitter = true,
+					exclude_filetypes = {
+						dashboard = true,
+						lspinfo = true,
+						checkhealth = true,
+						lazy = true,
+						mason = true,
+						help = true,
+					},
+				},
+				blank = {
+					enable = false,
+				},
+			})
+		end,
+	},
+	{
+		"iamcco/markdown-preview.nvim",
+		cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+		build = "cd app && npm install",
+		init = function()
+			vim.g.mkdp_filetypes = { "markdown" }
+			vim.g.mkdp_port = 1807
+			vim.g.mkdp_echo_preview_url = 1
+		end,
+		ft = { "markdown" },
+	},
+	{
+		"lervag/vimtex",
+		init = function()
+			-- Use init for configuration, don't use the more common "config".
+			vim.g.vimtex_view_method = "zathura"
+		end,
+	},
 }

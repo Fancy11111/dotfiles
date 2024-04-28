@@ -23,6 +23,7 @@ return {
 				"hrsh7th/cmp-nvim-lsp",
 				"hrsh7th/cmp-path",
 				"hrsh7th/cmp-buffer",
+				"micangl/cmp-vimtex",
 				"onsails/lspkind-nvim",
 				"L3MON4D3/LuaSnip",
 				"saadparwaiz1/cmp_luasnip",
@@ -271,11 +272,11 @@ return {
 				local opts = { noremap = true, silent = true, buffer = bufnr }
 				-- haskell-language-server relies heavily on codeLenses,
 				-- so auto-refresh (see advanced configuration) is enabled by default
-				vim.keymap.set("n", "<space>cl", vim.lsp.codelens.run, opts)
+				vim.keymap.set("n", "<leader>cl", vim.lsp.codelens.run, opts)
 				-- Hoogle search for the type signature of the definition under the cursor
-				vim.keymap.set("n", "<space>hs", ht.hoogle.hoogle_signature, opts)
+				vim.keymap.set("n", "<leader>hs", ht.hoogle.hoogle_signature, opts)
 				-- Evaluate all code snippets
-				vim.keymap.set("n", "<space>ea", ht.lsp.buf_eval_all, opts)
+				vim.keymap.set("n", "<leader>ea", ht.lsp.buf_eval_all, opts)
 				-- Toggle a GHCi repl for the current package
 				vim.keymap.set("n", "<leader>rr", ht.repl.toggle, opts)
 				-- Toggle a GHCi repl for the current buffer
@@ -354,13 +355,13 @@ return {
 		}
 		cmp.setup({
 			sources = {
-				{ name = "nvim_lsp" },
 				{ name = "nvim_lsp", keyword_length = 1 },
 				{ name = "luasnip", keyword_length = 2 },
-				{ name = "path" },
+				{ name = "path", keyword_length = 2 },
 				{ name = "nvim_lua", keyword_length = 1 },
-				{ name = "jdtls" },
+				{ name = "jdtls", keyword_length = 2 },
 				{ name = "buffer", keyword_length = 3 },
+				{ name = "vimtex", keyword_length = 2 },
 			},
 			performance = { debounce = 500 },
 			mapping = {
@@ -399,6 +400,11 @@ return {
 				expand = function(args)
 					require("luasnip").lsp_expand(args.body)
 				end,
+			},
+			view = {
+				entries = {
+					follow_cursor = true,
+				},
 			},
 		})
 
