@@ -1,0 +1,97 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+source $HOME/.cargo/env
+source /usr/share/nvm/nvm.sh
+source /usr/share/nvm/bash_completion
+source /usr/share/nvm/install-nvm-exec
+source /home/daniel/.opam/opam-init/init.zsh
+
+# envs
+export NVM_DIR=~/.nvm
+#
+export PATH="~/bin:~/.bin:~/.local/bin:~/.bun/bin:~/.cargo/bin":$PATH
+export PATH="/home/daniel/.nvm/versions/node/$(nvm version)/bin":$PATH
+export JUPYTERLAB_DIR="$HOME/.local/share/jupyter/lab" 
+export GOPATH=$(go env GOPATH)
+export PATH=$GOPATH/bin:$PATH
+export PNPM_HOME="/home/daniel/.local/share/pnpm"
+export PATH="$PNPM_HOME":$PATH
+
+# Dir for zinit + plugins
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+
+# Download zinit if not installed
+if [ ! -d "$ZINIT_HOME" ]; then
+    mkdir -p "$(dirname $ZINIT_HOME)"
+    git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+fi
+
+# Load zinit
+source "${ZINIT_HOME}/zinit.zsh"
+
+
+
+zinit ice depth=1; zinit light romkatv/powerlevel10k
+
+zinit light zsh-users/zsh-syntax-highlighting
+zinit light zsh-users/zsh-completions
+zinit light zsh-users/zsh-autosuggestions
+zinit light Aloxaf/fzf-tab
+
+# snippets
+zinit snippet OMZP::git
+zinit snippet OMZP::sudo
+zinit snippet OMZP::archlinux
+zinit snippet OMZP::aws
+zinit snippet OMZP::kubectl
+zinit snippet OMZP::kubectx
+zinit snippet OMZP::command-not-found
+
+autoload -U compinit && compinit
+
+zinit cdreplay -q
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+bindkey -e
+bindkey "^p" history-search-backward
+bindkey "^f" history-search-forward
+
+
+#history
+HISTSIZE=5000
+HISTFILE=~/.zsh_history
+SAVEHIST=$HISTSIZE
+HISTDUP=erase
+setopt appendhistory
+setopt sharehistory
+setopt hist_ignore_space
+setopt hist_ignore_all_dups
+setopt hist_save_no_dups
+setopt hist_ignore_dups
+setopt hist_find_no_dups
+
+#completion style
+zstyle ':commpletion:*' matcher-list 'm:{a-z}={A-Za-z}'
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+zstyle ':completion:*' menu no
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -a --long --color $realpath' 
+zstyle ':fzf-tab:complet:__zoxide_z:*' fzf-preview 'eza -a --long --color $realpath'
+
+# aliases
+alias ls="eza -a --long --git --color"
+alias nvim="neovim"
+alias xmonad-config="cd ~/.config/xmonad && nvim ."
+alias fish-config="cd ~/.config/fish && nvim ."
+alias vue-language-server="vls"
+alias susp="systemctl suspend"
+
+# shell integrations
+eval "$(fzf --zsh)"
+eval "$(zoxide init --cmd cd zsh)"
