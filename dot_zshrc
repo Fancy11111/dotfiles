@@ -16,6 +16,7 @@ export NVM_DIR=~/.nvm
 #
 export PATH="~/bin:~/.bin:~/.local/bin:~/.bun/bin:~/.cargo/bin":$PATH
 export PATH="/home/daniel/.nvm/versions/node/$(nvm version)/bin":$PATH
+export PATH="/home/daniel/.jbang/bin":$PATH
 export JUPYTERLAB_DIR="$HOME/.local/share/jupyter/lab" 
 export GOPATH=$(go env GOPATH)
 export PATH=$GOPATH/bin:$PATH
@@ -86,7 +87,7 @@ zstyle ':fzf-tab:complet:__zoxide_z:*' fzf-preview 'eza -a --long --color $realp
 
 # aliases
 alias ls="eza -a --long --git --color"
-alias nvim="neovim"
+# alias nvim="neovim"
 alias xmonad-config="cd ~/.config/xmonad && nvim ."
 alias fish-config="cd ~/.config/fish && nvim ."
 alias vue-language-server="vls"
@@ -95,3 +96,9 @@ alias susp="systemctl suspend"
 # shell integrations
 eval "$(fzf --zsh)"
 eval "$(zoxide init --cmd cd zsh)"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/daniel/google-cloud-sdk/path.zsh.inc' ]; then . '/home/daniel/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/daniel/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/daniel/google-cloud-sdk/completion.zsh.inc'; fi

@@ -97,8 +97,8 @@ return {
 
 			local theme_defaults = themes.get_dropdown({
 				win_blend = 10,
-				results_height = 0.25,
-				width = 0.65,
+				results_height = 0.35,
+				width = 0.85,
 				shorten_path = true,
 			})
 

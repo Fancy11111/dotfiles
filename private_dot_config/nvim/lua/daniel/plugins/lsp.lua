@@ -27,6 +27,7 @@ return {
 				"onsails/lspkind-nvim",
 				"L3MON4D3/LuaSnip",
 				"saadparwaiz1/cmp_luasnip",
+				"kristijanhusak/vim-dadbod-completion",
 			},
 		},
 
@@ -218,6 +219,7 @@ return {
 		require("mason").setup({})
 
 		local servers = {
+			"bufls",
 			"cssls",
 			"gopls",
 			"html",
@@ -405,6 +407,13 @@ return {
 				entries = {
 					follow_cursor = true,
 				},
+			},
+		})
+
+		cmp.setup.filetype({ "sql" }, {
+			sources = {
+				{ name = "vim-dadbod-completion" },
+				{ name = "buffer" },
 			},
 		})
 
