@@ -14,13 +14,13 @@ source /home/daniel/.opam/opam-init/init.zsh
 # envs
 export NVM_DIR=~/.nvm
 #
-export PATH="~/bin:~/.bin:~/.local/bin:~/.bun/bin:~/.cargo/bin":$PATH
-export PATH="/home/daniel/.nvm/versions/node/$(nvm version)/bin":$PATH
-export PATH="/home/daniel/.jbang/bin":$PATH
+export PATH="$HOME/bin:$HOME/.bin:$HOME/.local/bin:$HOME/.bun/bin:$HOME/.cargo/bin":$PATH
+export PATH="$HOME/.nvm/versions/node/$(nvm version)/bin":$PATH
+export PATH="$HOME/.jbang/bin":$PATH
 export JUPYTERLAB_DIR="$HOME/.local/share/jupyter/lab" 
 export GOPATH=$(go env GOPATH)
 export PATH=$GOPATH/bin:$PATH
-export PNPM_HOME="/home/daniel/.local/share/pnpm"
+export PNPM_HOME="$HOME/.local/share/pnpm"
 export PATH="$PNPM_HOME":$PATH
 
 # Dir for zinit + plugins
@@ -88,7 +88,9 @@ zstyle ':fzf-tab:complet:__zoxide_z:*' fzf-preview 'eza -a --long --color $realp
 # aliases
 alias ls="eza -a --long --git --color"
 # alias nvim="neovim"
+alias nvim-config="cd ~/.config/nvim && nvim ."
 alias xmonad-config="cd ~/.config/xmonad && nvim ."
+alias fish-config="cd ~/.config/fish && nvim ."
 alias fish-config="cd ~/.config/fish && nvim ."
 alias vue-language-server="vls"
 alias susp="systemctl suspend"
@@ -102,3 +104,9 @@ if [ -f '/home/daniel/google-cloud-sdk/path.zsh.inc' ]; then . '/home/daniel/goo
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/home/daniel/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/daniel/google-cloud-sdk/completion.zsh.inc'; fi
+
+
+# Load Angular CLI autocompletion.
+source <(ng completion script)
+
+[ -f "/home/daniel/.ghcup/env" ] && . "/home/daniel/.ghcup/env" # ghcup-env

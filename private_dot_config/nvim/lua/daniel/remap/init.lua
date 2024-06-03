@@ -2,7 +2,7 @@ vim.g.mapleader = " "
 
 local keymap = vim.keymap.set
 
-keymap("n", "<Leader>pv", vim.cmd.Ex)
+keymap("n", "<Leader>pv", ":Oil<CR>")
 keymap("n", "<C-a>", "gg<S-v>G")
 keymap("n", "U", ":redo<CR>", { noremap = true })
 
