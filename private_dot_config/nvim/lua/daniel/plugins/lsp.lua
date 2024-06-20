@@ -55,7 +55,7 @@ return {
 		{ "folke/neodev.nvim", lazy = false },
 		{ "jose-elias-alvarez/typescript.nvim", lazy = false },
 
-		{ "jose-elias-alvarez/null-ls.nvim" },
+		-- { "jose-elias-alvarez/null-ls.nvim" },
 		{
 			"ray-x/go.nvim",
 			lazy = false,
@@ -137,7 +137,8 @@ return {
 				keymap("n", "<leader>gsy", "<cmd>GoTagAdd yaml<CR>", { buffer = bufnr, desc = "Add yaml struct tags" })
 			end
 
-			if client.name == "null-ls" then
+			-- if client.name == "null-ls" then
+			if client.supports_method("textDocument/formatting") then
 				register_fmt_keymap(client.name, bufnr)
 				register_fmt_autosave(client.name, bufnr)
 			end
@@ -330,15 +331,15 @@ return {
 			},
 		})
 
-		-- Linter/Formatter registeration via null-ls
-		local null_ls = require("null-ls")
-		null_ls.setup({
-			sources = {
-				null_ls.builtins.formatting.stylua,
-				null_ls.builtins.formatting.prettier,
-				null_ls.builtins.diagnostics.eslint_d,
-			},
-		})
+		-- -- Linter/Formatter registeration via null-ls
+		-- local null_ls = require("null-ls")
+		-- null_ls.setup({
+		-- 	sources = {
+		-- 		null_ls.builtins.formatting.stylua,
+		-- 		null_ls.builtins.formatting.prettier,
+		-- 		null_ls.builtins.diagnostics.eslint_d,
+		-- 	},
+		-- })
 
 		-- Override autocompletion in this section
 		-- for nvim-cmp
