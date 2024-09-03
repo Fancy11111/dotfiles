@@ -199,7 +199,7 @@ vim.keymap.set('n', '-', '<CMD>Oil<CR>', { desc = 'Open parent directory' })
 vim.keymap.set('n', '<C-D>', '<C-D>zz', { desc = 'Page Down' })
 vim.keymap.set('n', '<C-U>', '<C-U>zz', { desc = 'Page Down' })
 
-vim.keymap.set('n', '<leader>lo<CR>', ':so %', { desc = 'Reload current file' })
+vim.keymap.set('n', '<leader>lo', ':so %<CR>', { desc = 'Reload current file' })
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
