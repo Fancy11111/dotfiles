@@ -18,6 +18,7 @@ export PATH="$HOME/bin:$HOME/.bin:$HOME/.local/bin:$HOME/.bun/bin:$HOME/.cargo/b
 export PATH="$HOME/.nvm/versions/node/$(nvm version)/bin":$PATH
 export PATH="$HOME/.jbang/bin":$PATH
 export PATH="$HOME/.linkerd2/bin":$PATH
+export PATH="$HOME/apache-storm/bin":$PATH
 export JUPYTERLAB_DIR="$HOME/.local/share/jupyter/lab" 
 export GOPATH=$(go env GOPATH)
 export PATH=$GOPATH/bin:$PATH
@@ -103,10 +104,10 @@ eval "$(fzf --zsh)"
 eval "$(zoxide init --cmd cd zsh)"
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/home/daniel/google-cloud-sdk/path.zsh.inc' ]; then . '/home/daniel/google-cloud-sdk/path.zsh.inc'; fi
+# if [ -f '/home/daniel/google-cloud-sdk/path.zsh.inc' ]; then . '/home/daniel/google-cloud-sdk/path.zsh.inc'; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/home/daniel/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/daniel/google-cloud-sdk/completion.zsh.inc'; fi
+# if [ -f '/home/daniel/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/daniel/google-cloud-sdk/completion.zsh.inc'; fi
 
 
 # Load Angular CLI autocompletion.
