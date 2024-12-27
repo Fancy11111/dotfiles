@@ -98,6 +98,7 @@ return {
               local root_dir = opts.root_dir(fname)
               local project_name = opts.project_name(root_dir)
               local cmd = vim.deepcopy(opts.cmd)
+              print(fname)
               if project_name then
                 vim.list_extend(cmd, {
                   '-configuration',
@@ -485,6 +486,10 @@ return {
       require('mason-lspconfig').setup {
         handlers = {
           function(server_name)
+            if server_name == 'jdtls' then
+              return
+            end
+
             local server = servers[server_name] or {}
             -- This handles overriding only values explicitly passed
             -- by the server configuration above. Useful when disabling
