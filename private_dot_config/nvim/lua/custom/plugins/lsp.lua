@@ -267,7 +267,7 @@ return {
           })
 
           -- Avoid race condition by calling attach the first time, since the autocmd won't fire.
-          attach_jdtls()
+          -- attach_jdtls()
         end,
       },
       {
