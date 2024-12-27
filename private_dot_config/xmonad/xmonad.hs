@@ -76,7 +76,7 @@ import XMonad.Util.SpawnOnce
 
 import Colors.Nord
 
-myTerminal = "ghostty"
+myTerminal = "kitty"
 
 myFont = "xft:SauceCodePro Nerd Font Mono:regular:size=16:antialias=true:hinting=true"
 
@@ -282,7 +282,7 @@ grid =
                     Grid (16 / 10)
 tabs =
     renamed [Replace "tabs"] $
-        tabbed shrinkText  myTabConfig
+        tabbed shrinkText myTabConfig
   where
     myTabConfig =
         def
@@ -321,7 +321,8 @@ myLayoutHook =
         tall
             ||| grid
             ||| noBorders tabs
-            -- ||| noBorders full 
+
+-- \||| noBorders full
 
 -- myLayoutPrinter "tall" = "<fn=3>\xf338</fn>"
 -- myLayoutPrinter "wide" = "<fn=3>\xf337</fn>"
@@ -370,10 +371,10 @@ myKeys =
     , ("M-S-i", spawn intellij)
     , ("M-S-x", spawn "xournalpp")
     , ("M-S-m", spawn "mattermost-desktop")
-    -- , ("M-<Space>", sendMessage $ JumpToLayout "tabs")
-    , ("M-<Space>", sendMessage $ JumpToLayout "tabs")
-    -- , ("M-S-t", sendMessage $ JumpToLayout "tabs")
-    , ("M-g", sendMessage $ JumpToLayout "grid")
+    , -- , ("M-<Space>", sendMessage $ JumpToLayout "tabs")
+      ("M-<Space>", sendMessage $ JumpToLayout "tabs")
+    , -- , ("M-S-t", sendMessage $ JumpToLayout "tabs")
+      ("M-g", sendMessage $ JumpToLayout "grid")
     , ("M-f", withFocused toggleFloat)
     , ("M-t", withFocused $ windows . (flip W.float $ W.RationalRect 0 0 1 1))
     , ("<Print>", spawn "spectacle")
