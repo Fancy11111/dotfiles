@@ -1,0 +1,50 @@
+#!/bin/bash
+#
+get_tmux_option() {
+  local option
+  local default_value
+  local option_value
+  option="$1"
+  default_value="$2"
+  option_value="$(tmux show-option -qv "$option")"
+  if [ -z "$option_value" ]; then
+    option_value="$(tmux show-option -gqv "$option")"
+  fi
+  if [ -z "$option_value" ]; then
+    echo "$default_value"
+  else
+    echo "$option_value"
+  fi
+}
+
+# pomodoro tmux-color --active "\$thm_magenta" --done "\$thm_red"
+#
+pomodoro_done_color=""
+pomodoro_active_color=""
+
+pomodoro_done_default_color="$thm_red"
+pomodoro_active_default_color="$thm_magenta"
+
+get_pomodoro_color_setting() {
+	pomodoro_done_color=$(get_tmux_option @pomdoro_done_color "$pomodoro_done_default_color")
+	pomodoro_active_color=$(get_tmux_option @pomdoro_active_color "$pomodoro_active_default_color")
+}
+
+print_pomodoro_color() {
+	pomodoro_active=$(pomodoro tmux-color --active "active" --done "done")
+
+	# pomodoro_color=$pomodoro_active_color
+	if [ $pomodoro_active == "active" ]; then
+	# p="t"
+		echo "$pomodoro_active_color"
+	else
+		echo "$pomodoro_done_color"
+	fi
+}
+
+main() {
+	get_pomodoro_color_setting
+	print_pomodoro_color
+}
+
+main "$@"

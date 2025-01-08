@@ -1,0 +1,27 @@
+#!/bin/bash
+
+time="$(pomodoro status --format %!r)"
+alt="$(pomodoro status --format %c)"
+name=$(pomodoro status --format %d)
+tags=$(pomodoro status --format "%t")
+tooltip=$name
+
+if [[ -n $tags ]]; then
+    tooltip="$name [$tags]"
+fi
+
+if [[ -z $time ]]; then
+    task="No task" 
+elif [ "$time" = "❗️" ]; then
+    task="Finished: $name"
+else
+    name=$(pomodoro status --format %d)
+    if [[ -n $name ]]; then
+        task=$time   
+    else
+        task="$name: $time"
+    fi
+    task="$name: $time"
+fi
+
+echo "{\"text\": \"$task\", \"alt\": \"$alt\", \"tooltip\": \"$tooltip\"}"

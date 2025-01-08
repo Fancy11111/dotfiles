@@ -1,0 +1,8 @@
+#! /bin/bash
+time="$(pomodoro status --format %!r)"
+
+if [ "$time" = "❗️" ]; then
+    echo "❗"
+else
+	echo "🍅"
+fi
