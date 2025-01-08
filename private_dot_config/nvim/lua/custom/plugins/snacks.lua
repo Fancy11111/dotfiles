@@ -41,11 +41,18 @@ return {
           { section = 'startup' },
         },
       },
-      indent = { enabled = true },
+      indent = {
+        enabled = true,
+        animate = {
+          enabled = false,
+        },
+      },
       input = { enabled = true },
       -- notifier = { enabled = true },
       quickfile = { enabled = true },
-      scroll = { enabled = true },
+      scroll = {
+        enabled = false,
+      },
       -- statuscolumn = { enabled = true },
       words = { enabled = true },
     },
