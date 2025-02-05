@@ -1,0 +1,39 @@
+live_config_reload = true
+
+import = ["~/.config/alacritty/nord-v3.toml"]
+
+[window]
+opacity = 0.9
+
+[window.padding]
+x = 3
+# y = 3
+
+[env]
+TERM = "xterm-256color"
+
+[font]
+size = 10
+
+[font.glyph_offset]
+x = 0
+y = 0
+
+[font.italic]
+family = "JetBrains Mono Nerd Font"
+
+[font.bold]
+family = "JetBrains Mono Nerd Font"
+style = "Bold"
+
+[font.normal]
+family = "JetBrains Mono Nerd Font"
+style = "Regular"
+
+[cursor]
+blink_interval = 500
+unfocused_hollow = true
+
+[cursor.style]
+shape = "Block"
+blinking = "Always"

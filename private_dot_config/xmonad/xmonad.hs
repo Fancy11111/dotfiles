@@ -86,6 +86,8 @@ intellij = "intellij-idea-ultimate-edition"
 
 myBrowser = "brave"
 
+myBrowserIncognito = "brave --incognito"
+
 myFileManager = "nemo"
 
 discord = "discord"
@@ -318,9 +320,9 @@ myLayoutHook =
                 mkToggle (NBFULL ?? NOBORDERS ?? EOT) myDefaultLayout
   where
     myDefaultLayout =
-        tall
+        noBorders tabs
+            ||| tall
             ||| grid
-            ||| noBorders tabs
 
 -- \||| noBorders full
 
@@ -362,6 +364,7 @@ myKeys =
       -- ("M-<Right>", sendMessage NextWorkspace),
       ("M-<Return>", spawn myTerminal)
     , ("M-b", spawn myBrowser)
+    , ("M-S-b", spawn myBrowserIncognito)
     , ("M-r", spawn "dmenu_run")
     , ("M-S-o", spawn "obsidian")
     , ("M-S-s", spawn "spotify-launcher")

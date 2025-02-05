@@ -1,0 +1,2 @@
+#!/bin/bash
+pomodoro tmux-color --active "active" --done "done"

@@ -1,0 +1,48 @@
+#!/bin/bash
+
+description=$(pomodoro history -o json | jq '.pomodoros[] | .description' --args | sort -u | fzf --prompt="Choose task (or enter new one):" --bind=enter:replace-query+print-query | sed -e 's/^"//' -e 's/"$//')
+
+if [ -z "$description" ]; then
+    exit 1
+fi
+
+tags=""
+tagsArray=()
+
+oldTags=$(pomodoro history -o json | jq '.pomodoros[] | .tags[]?' | sort -u)
+
+# Loop to get user input
+while true; do
+    # Prompt for user input
+    input=$(echo -n "$oldTags" | fzf --prompt="Choose tags (or enter new one, ESC to stop adding tags): " --bind=enter:replace-query+print-query | sed -e 's/^"//' -e 's/"$//')
+
+    # Check if the input is empty
+    if [ -z "$input" ]; then
+        break  # Exit the loop if input is empty
+    fi
+
+    # Add the input to the list
+    # tags+="$input,"
+    tagsArray+=("$input")
+done
+#
+# if [ -n "$tags" ]; then
+#     tags=${tags%,}
+# fi
+
+uniqueTags=($(printf "%s\n" "${tagsArray[@]}" | sort -u))
+
+# Display the unique tags
+for tag in "${uniqueTags[@]}"; do
+    tags+="$tag,"
+done
+
+
+if [ -n "$tags" ]; then
+    tags=${tags%,}
+    pomodoro start "$description" -t $tags
+else
+    pomodoro start "$description"
+fi
+
+

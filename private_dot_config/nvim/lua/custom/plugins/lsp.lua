@@ -40,6 +40,149 @@ return {
       { 'williamboman/mason.nvim', config = true }, -- NOTE: Must be loaded before dependants
       'williamboman/mason-lspconfig.nvim',
       'WhoIsSethDaniel/mason-tool-installer.nvim',
+      {
+        'saghen/blink.cmp',
+        dependencies = {
+          'rafamadriz/friendly-snippets',
+          'onsails/lspkind.nvim',
+          { 'echasnovski/mini.snippets' },
+          {
+            'saghen/blink.compat',
+            -- use the latest release, via version = '*', if you also use the latest release for blink.cmp
+            version = '*',
+            -- lazy.nvim will automatically load the plugin when it's required by blink.cmp
+            lazy = true,
+            -- make sure to set opts so that lazy.nvim calls blink.compat's setup
+            opts = {},
+            dependencies = {
+              -- 'supermaven-inc/supermaven-nvim',
+              'supermaven-inc/supermaven-nvim',
+            },
+          },
+        },
+        version = '*',
+        opts_extend = { 'sources.default' },
+        opts = {
+          appearance = {
+            use_nvim_cmp_as_default = false,
+            nerd_font_variant = 'mono',
+          },
+
+          completion = {
+            accept = { auto_brackets = { enabled = true, override_brackets_for_filetypes = { 'scala' } } },
+
+            documentation = {
+              auto_show = true,
+              auto_show_delay_ms = 250,
+              treesitter_highlighting = true,
+              window = { border = 'rounded' },
+            },
+
+            list = {
+              selection = { preselect = true, auto_insert = true },
+            },
+
+            ghost_text = {
+              enabled = false,
+            },
+
+            menu = {
+              border = 'rounded',
+
+              cmdline_position = function()
+                if vim.g.ui_cmdline_pos ~= nil then
+                  local pos = vim.g.ui_cmdline_pos -- (1, 0)-indexed
+                  return { pos[1] - 1, pos[2] }
+                end
+                local height = (vim.o.cmdheight == 0) and 1 or vim.o.cmdheight
+                return { vim.o.lines - height, 0 }
+              end,
+
+              draw = {
+                columns = {
+                  { 'kind_icon', 'label', gap = 1 },
+                  { 'kind' },
+                },
+                components = {
+                  kind_icon = {
+                    text = function(item)
+                      local kind = require('lspkind').symbol_map[item.kind] or ''
+                      return kind .. ' '
+                    end,
+                    highlight = 'CmpItemKind',
+                  },
+                  label = {
+                    text = function(item)
+                      return item.label
+                    end,
+                    highlight = 'CmpItemAbbr',
+                  },
+                  kind = {
+                    text = function(item)
+                      return item.kind
+                    end,
+                    highlight = 'CmpItemKind',
+                  },
+                },
+              },
+            },
+          },
+
+          -- My super-TAB configuration
+          keymap = {
+            ['<C-space>'] = { 'show', 'show_documentation', 'hide_documentation' },
+            ['<C-e>'] = { 'hide', 'fallback' },
+            ['<CR>'] = { 'accept', 'fallback' },
+
+            ['<Tab>'] = {
+              function(cmp)
+                return cmp.select_next()
+              end,
+              'snippet_forward',
+              'fallback',
+            },
+            ['<S-Tab>'] = {
+              function(cmp)
+                return cmp.select_prev()
+              end,
+              'snippet_backward',
+              'fallback',
+            },
+
+            ['<Up>'] = { 'select_prev', 'fallback' },
+            ['<Down>'] = { 'select_next', 'fallback' },
+            ['<C-p>'] = { 'select_prev', 'fallback' },
+            ['<C-n>'] = { 'select_next', 'fallback' },
+            ['<C-up>'] = { 'scroll_documentation_up', 'fallback' },
+            ['<C-down>'] = { 'scroll_documentation_down', 'fallback' },
+
+            ['<C-u>'] = { 'scroll_documentation_up', 'fallback' },
+            ['<C-d>'] = { 'scroll_documentation_down', 'fallback' },
+          },
+
+          -- Experimental signature help support
+          signature = {
+            enabled = true,
+            window = { border = 'rounded' },
+          },
+
+          -- snippets = { preset = 'mini_snippets' },
+
+          sources = {
+            default = { 'lsp', 'path', 'snippets', 'buffer' },
+            cmdline = {}, -- Disable sources for command-line mode
+            providers = {
+              supermaven = {
+                name = 'supermaven', -- IMPORTANT: use the same name as you would for nvim-cmp
+                module = 'blink.compat.source',
+
+                -- all blink.cmp source config options work as normal:
+                score_offset = -3,
+              },
+            },
+          },
+        },
+      },
 
       -- Useful status updates for LSP.
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
@@ -62,7 +205,7 @@ return {
       -- "github/copilot.vim",
       {
         'mfussenegger/nvim-jdtls',
-        dependencies = { 'folke/which-key.nvim' },
+        dependencies = { 'folke/which-key.nvim', 'saghen/blink.cmp' },
         ft = java_filetypes,
         opts = function()
           local mason_registry = require 'mason-registry'
@@ -97,7 +240,6 @@ return {
               local root_dir = opts.root_dir(fname)
               local project_name = opts.project_name(root_dir)
               local cmd = vim.deepcopy(opts.cmd)
-              print(fname)
               if project_name then
                 vim.list_extend(cmd, {
                   '-configuration',
@@ -162,7 +304,7 @@ return {
               },
               settings = opts.settings,
               -- enable CMP capabilities
-              capabilities = require('cmp_nvim_lsp').default_capabilities() or nil,
+              capabilities = require('blink.cmp').get_lsp_capabilities() or nil,
             }, opts.jdtls)
 
             -- Existing server will be reused if the root_dir matches.
@@ -358,7 +500,7 @@ return {
       --  By default, Neovim doesn't support everything that is in the LSP specification.
       --  When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.
       --  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
+      local capabilities = require('blink.cmp').get_lsp_capabilities(vim.lsp.protocol.make_client_capabilities())
       -- capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
 
       -- Enable the following language servers
@@ -481,6 +623,8 @@ return {
         'templ',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
+
+      local dump = require('custom.util').dump
       require('mason-lspconfig').setup {
         handlers = {
           function(server_name)
@@ -492,145 +636,17 @@ return {
             -- This handles overriding only values explicitly passed
             -- by the server configuration above. Useful when disabling
             -- certain features of an LSP (for example, turning off formatting for tsserver)
-            server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-            server.capabilities = require("blink.cmp").get_lsp_capabilities(server.capabilities)
+            -- server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
+            server.capabilities = require('blink.cmp').get_lsp_capabilities(server.capabilities)
             require('lspconfig')[server_name].setup(server)
           end,
         },
       }
     end,
   },
-  {
-    'saghen/blink.cmp',
-    dependencies = {
-      "rafamadriz/friendly-snippets",
-      "onsails/lspkind.nvim",
-    },
-    version = '*',
-    opts = {
-      appearance = {
-          use_nvim_cmp_as_default = false,
-          nerd_font_variant = "mono",
-      },
 
-      completion = {
-        accept = { auto_brackets = { enabled = true } },
+  {},
 
-        documentation = {
-            auto_show = true,
-            auto_show_delay_ms = 250,
-            treesitter_highlighting = true,
-            window = { border = "rounded" },
-        },
-
-        list = {
-          selection = function(ctx)
-            return ctx.mode == "cmdline" and "auto_insert" or "preselect"
-          end,
-        },
-
-        menu = {
-          border = "rounded",
-
-          cmdline_position = function()
-              if vim.g.ui_cmdline_pos ~= nil then
-                  local pos = vim.g.ui_cmdline_pos -- (1, 0)-indexed
-                  return { pos[1] - 1, pos[2] }
-              end
-              local height = (vim.o.cmdheight == 0) and 1 or vim.o.cmdheight
-              return { vim.o.lines - height, 0 }
-          end,
-
-          draw = {
-              columns = {
-                  { "kind_icon", "label", gap = 1 },
-                  { "kind" },
-              },
-              components = {
-                  kind_icon = {
-                      text = function(item)
-                          local kind = require("lspkind").symbol_map[item.kind] or ""
-                          return kind .. " "
-                      end,
-                      highlight = "CmpItemKind",
-                  },
-                  label = {
-                      text = function(item)
-                          return item.label
-                      end,
-                      highlight = "CmpItemAbbr",
-                  },
-                  kind = {
-                      text = function(item)
-                          return item.kind
-                      end,
-                      highlight = "CmpItemKind",
-                  },
-              },
-          },
-        },
-      },
-
-      -- My super-TAB configuration
-      keymap = {
-          ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
-          ["<C-e>"] = { "hide", "fallback" },
-          ["<CR>"] = { "accept", "fallback" },
-
-          ["<Tab>"] = {
-              function(cmp)
-                  return cmp.select_next()
-              end,
-              "snippet_forward",
-              "fallback",
-          },
-          ["<S-Tab>"] = {
-              function(cmp)
-                  return cmp.select_prev()
-              end,
-              "snippet_backward",
-              "fallback",
-          },
-
-          ["<Up>"] = { "select_prev", "fallback" },
-          ["<Down>"] = { "select_next", "fallback" },
-          ["<C-p>"] = { "select_prev", "fallback" },
-          ["<C-n>"] = { "select_next", "fallback" },
-          ["<C-up>"] = { "scroll_documentation_up", "fallback" },
-          ["<C-down>"] = { "scroll_documentation_down", "fallback" },
-
-          ["<C-u>"] = { "scroll_documentation_up", "fallback" },
-          ["<C-d>"] = { "scroll_documentation_down", "fallback" },
-      },
-
-      -- Experimental signature help support
-      signature = {
-          enabled = true,
-          window = { border = "rounded" },
-      },
-
-      sources = {
-          default = { "lsp", "path", "snippets", "buffer" },
-          cmdline = {}, -- Disable sources for command-line mode
-          providers = {
-              lsp = {
-                  min_keyword_length = 2, -- Number of characters to trigger porvider
-                  score_offset = 0, -- Boost/penalize the score of the items
-              },
-              path = {
-                  min_keyword_length = 0,
-              },
-              snippets = {
-                  min_keyword_length = 2,
-              },
-              buffer = {
-                  min_keyword_length = 5,
-                  max_items = 5,
-              },
-          },
-      },
-    },
-  }
   -- { -- Autocompletion
   --   'hrsh7th/nvim-cmp',
   --   event = 'InsertEnter',
@@ -752,5 +768,4 @@ return {
   --     })
   --   end,
   -- },
-
 }
