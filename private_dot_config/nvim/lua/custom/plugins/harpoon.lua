@@ -44,27 +44,50 @@ return {
 
       -- basic telescope configuration
       local conf = require('telescope.config').values
-      local function toggle_telescope(harpoon_files)
+      -- local function toggle_telescope(harpoon_files)
+      --   local file_paths = {}
+      --   for _, item in ipairs(harpoon_files.items) do
+      --     table.insert(file_paths, item.value)
+      --   end
+      --
+      --   require('telescope.pickers')
+      --     .new({}, {
+      --       prompt_title = 'Harpoon',
+      --       finder = require('telescope.finders').new_table {
+      --         results = file_paths,
+      --       },
+      --       previewer = conf.file_previewer {},
+      --       sorter = conf.generic_sorter {},
+      --     })
+      --     :find()
+      -- end
+
+      local function toggle_fzf(harpoon_files)
         local file_paths = {}
         for _, item in ipairs(harpoon_files.items) do
           table.insert(file_paths, item.value)
         end
 
-        require('telescope.pickers')
-          .new({}, {
-            prompt_title = 'Harpoon',
-            finder = require('telescope.finders').new_table {
-              results = file_paths,
-            },
-            previewer = conf.file_previewer {},
-            sorter = conf.generic_sorter {},
-          })
-          :find()
+        require('fzf-lua').fzf_exec(file_paths, {
+          prompt = 'Harpoon> ',
+          actions = {
+            ['default'] = function(selected, opts)
+              vim.api.nvim_exec2(':e ' .. selected[1], {})
+            end,
+            ['ctrl-y'] = function(selected, opts)
+              print('selected item:', selected[1])
+            end,
+          },
+        })
       end
 
-      vim.keymap.set('n', '<leader>pm', function()
-        toggle_telescope(harpoon:list())
-      end, { desc = 'Open harpoon window' })
+      -- vim.keymap.set('n', '<leader>mm', function()
+      --   toggle_telescope(harpoon:list())
+      -- end, { desc = 'Open harpoon window' })
+
+      vim.keymap.set('n', '<leader>mz', function()
+        toggle_fzf(harpoon:list())
+      end, { desc = 'Open fzf window' })
     end,
   },
 }

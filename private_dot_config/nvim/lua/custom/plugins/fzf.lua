@@ -168,6 +168,11 @@ return {
         desc = 'Search in open buffers',
       },
       {
+        '<leader>pg',
+        '<cmd>FzfLua live_grep<cr>',
+        desc = 'Search live grep',
+      },
+      {
         '<leader>pp',
         '<cmd>FzfLua live_grep<cr>',
         desc = 'Search live grep',

@@ -2,7 +2,8 @@
 # echo $(find ~/work ~/.config ~/projects ~/work -mindepth 1 -maxdepth 1 -type d)
 
 if [[ $# -eq 1 ]]; then
-    selected=$1
+    # selected=$1
+    selected=$((find ~/work ~/projects ~/work -mindepth 1 -maxdepth 1 -type d ; cat ~/.local/share/tmux-sessionizer/projectlist ; cat ~/.local/share/tmux-sessionizer/directorylist | xargs -I % sh -c "find % -mindepth 1 -maxdepth 1 -type d" ) | fzf --query=$1 --select-1 --exit-0)
 else
     selected=$((find ~/work ~/projects ~/work -mindepth 1 -maxdepth 1 -type d ; cat ~/.local/share/tmux-sessionizer/projectlist ; cat ~/.local/share/tmux-sessionizer/directorylist | xargs -I % sh -c "find % -mindepth 1 -maxdepth 1 -type d" ) | fzf)
 fi
@@ -16,6 +17,9 @@ tmux_running=$(pgrep tmux)
 
 if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
     tmux new-session -s $selected_name -c $selected
+    tmux rename-window terminal
+    tmux new-window -n editor
+    tmux new-window -n cli
     exit 0
 fi
 
