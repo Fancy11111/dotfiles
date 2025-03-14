@@ -1,7 +1,9 @@
 {
   "position": "top",
   "height": 30,
-  "modules-left": ["wlr/workspaces"],
+  "modules-left": [
+    "hyprland/workspaces"
+  ],
   "modules-right": [
     "cpu",
     "memory",
@@ -13,34 +15,34 @@
     "custom/power"
   ],
   // Modules configuration
-  "wlr/workspaces": {
+  "hyprland/workspaces": {
     "disable-scroll": true,
-    "format": "{icon}",
-    "active-only": false,
-    "persistent_workspaces": {
-      "1": [],
-      "2": [],
-      "3": [],
-      "4": [],
-      "5": [],
-      "6": [],
-      "7": [],
-      "8": [],
-      "9": [],
-      "10": []
-    },
-    "format-icons": {
-      "1": "󰋜",
-      "2": "󰈹",
-      "3": "󰠮",
-      "4": "󰭹",
-      "5": "󱓷",
-      "6": "󱇧",
-      "7": "󰊢",
-      "8": "󰖲",
-      "9": "󰕧",
-      "10": "󰝚"
-    }
+    // "format": "{icon}",
+    // "active-only": false,
+    // "persistent_workspaces": {
+    //   "1": [],
+    //   "2": [],
+    //   "3": [],
+    //   "4": [],
+    //   "5": [],
+    //   "6": [],
+    //   "7": [],
+    //   "8": [],
+    //   "9": [],
+    //   "10": []
+    // },
+    // "format-icons": {
+    //   "1": "󰋜",
+    //   "2": "󰈹",
+    //   "3": "󰠮",
+    //   "4": "󰭹",
+    //   "5": "󱓷",
+    //   "6": "󱇧",
+    //   "7": "󰊢",
+    //   "8": "󰖲",
+    //   "9": "󰕧",
+    //   "10": "󰝚"
+    // }
   },
   "custom/date": {
     "format": "󰸗 {}",
@@ -66,7 +68,11 @@
     "format-plugged": "󰂄{capacity}%",
     "format-alt": "{time} {icon}",
     "format-full": "󱈑 {capacity}%",
-    "format-icons": ["󱊡", "󱊢", "󱊣"]
+    "format-icons": [
+      "󱊡",
+      "󱊢",
+      "󱊣"
+    ]
   },
   "cpu": {
     "format": "{usage}% ",
@@ -92,7 +98,11 @@
       "phone": "",
       "portable": "",
       "car": "",
-      "default": ["", "", ""]
+      "default": [
+        "",
+        "",
+        ""
+      ]
     },
     "on-click": "pavucontrol"
   }

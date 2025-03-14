@@ -167,10 +167,14 @@ return {
           },
 
           -- snippets = { preset = 'mini_snippets' },
+          --
+          cmdline = {
+            sources = {},
+            enabled = false,
+          },
 
           sources = {
             default = { 'lsp', 'path', 'snippets', 'buffer' },
-            cmdline = {}, -- Disable sources for command-line mode
             providers = {
               supermaven = {
                 name = 'supermaven', -- IMPORTANT: use the same name as you would for nvim-cmp
