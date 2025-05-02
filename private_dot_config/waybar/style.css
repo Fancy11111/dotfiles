@@ -1,74 +1,68 @@
 * {
 	border: none;
-	border-radius: 0;
+	border-radius: 20px;
 	font-family: monospace;
 	font-size: 20px;
 	min-height: 0;
 }
 
 window#waybar {
-	background: #3b4252;
+	background: rgba(164, 164, 164, 0.5);
 	color: white;
 }
 
 #workspaces {
-	background-color: #2e3440;
+	background-color: rgba(46, 52, 64, 0.15);
 	margin: 5px;
 	margin-left: 10px;
 	border-radius: 5px;
+	padding: 7px 5px;
 }
 
-#workspaces button:not(:first-child):not(:last-child) {
-	margin: 0 2px;
+
+/* empty but persistent */
+#workspaces button.empty {
+	background-color: #5e81ac;
+}
+
+/* non-empty not active */
+#workspaces button {
+	border-radius: 10px;
 	padding: 0 0.5em;
+	margin: 0 2px;
 	color: #eceff4;
+	/* background-color: #6790a0; */
+	background-color: #81A1C1;
 }
 
-#workspaces button.active {
-	background-color: #6790a0;
-	border-radius: 5px;
-}
-
-/* #workspaces button.empty { */
-/* 	background-color: #6790a0; */
-/* 	border-radius: 5px; */
-/* } */
-
-#workspaces button.persistent {
-	background-color: #6790a0;
-	border-radius: 5px;
-}
-
-#workspaces button.special {
-	background-color: #6790a0;
-	border-radius: 5px;
-}
 
 #workspaces button.visible {
-	background-color: #5e81ac;
-	border-radius: 5px;
-}
-
-#workspaces button.urgent {
-	background-color: #6790a0;
-	border-radius: 5px;
-}
-
-#workspaces button.visible.hosting-monitor {
 	background-color: #8FBCBB;
-	border-radius: 5px;
 }
 
+#workspaces button.active.hosting-monitor {
+	background-color: #A3BE8C;
+}
+
+/* #workspaces button.active.hosting-monitor::before { */
+/* 	content: "["; */
+/* } */
+/**/
+/* #workspaces button.active.hosting-monitor::after { */
+/* 	content: "]"; */
+/* } */
+/**/
 #custom-date,
 #clock,
 #battery,
 #pulseaudio,
 #network,
 #cpu,
+#temperature,
 #memory {
-	background-color: #4c566a;
-	padding: 0px 10px;
-	margin: 5px 0px;
+	background-color: #4f739f;
+	padding: 7px 0.5em;
+	margin: 5px;
 }
 
 #custom-date {
@@ -78,17 +72,14 @@ window#waybar {
 #custom-power {
 	color: #2e3440;
 	background-color: #bf616a;
-	border-radius: 5px;
 	margin-right: 10px;
 	margin-top: 5px;
 	margin-bottom: 5px;
 	margin-left: 0px;
-	padding: 0px 10px;
 }
 
 #clock {
 	color: #b48ead;
-	border-radius: 0px 5px 5px 0px;
 	margin-right: 10px;
 }
 
@@ -98,7 +89,6 @@ window#waybar {
 
 #memory {
 	color: #b48ead;
-	border-radius: 5px 0px 0px 5px;
 }
 
 #battery {
