@@ -40,7 +40,7 @@ window#waybar {
 	border-radius: 5px;
 }
 
-#custom-date, #clock, #battery, #pulseaudio, #network, #cpu, #memory {
+#custom-date, #clock, #battery, #pulseaudio, #network, #cpu, #memory, #backlight {
 	background-color: #4c566a;
 	padding: 0px 10px;
 	margin: 5px 0px;
