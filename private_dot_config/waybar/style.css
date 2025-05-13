@@ -11,6 +11,10 @@ window#waybar {
 	color: white;
 }
 
+#window {
+	margin-left: 1em;
+}
+
 #workspaces {
 	background-color: rgba(46, 52, 64, 0.15);
 	margin: 5px;
@@ -22,7 +26,8 @@ window#waybar {
 
 /* empty but persistent */
 #workspaces button.empty {
-	background-color: #5e81ac;
+	background-color: transparent;
+	border: none;
 }
 
 /* non-empty not active */
@@ -32,16 +37,30 @@ window#waybar {
 	margin: 0 2px;
 	color: #eceff4;
 	/* background-color: #6790a0; */
-	background-color: #81A1C1;
+	/* background-color: #81A1C1; */
+	background-color: #5e81Ac;
+	border: 1px solid black;
 }
 
 
 #workspaces button.visible {
 	background-color: #8FBCBB;
+	border: 3px solid blue;
 }
 
-#workspaces button.active.hosting-monitor {
-	background-color: #A3BE8C;
+/**/
+/* #workspaces button.visible.hosting-monitor { */
+/* 	background-color: #8FBCBB; */
+/* 	border: 3px solid red; */
+/* } */
+
+
+
+#workspaces button.active.hosting-monitor,
+#workspaces button.visible.hosting-monitor {
+	background-color: #8FBCBB;
+	border-color: #A3BE8C;
+	border: 4px solid lightblue;
 }
 
 /* #workspaces button.active.hosting-monitor::before { */
@@ -59,10 +78,16 @@ window#waybar {
 #network,
 #cpu,
 #temperature,
-#memory {
+#memory,
+#tray,
+#window {
 	background-color: #4f739f;
 	padding: 7px 0.5em;
 	margin: 5px;
+}
+
+#window.waybar-empty {
+	background-color: transparent;
 }
 
 #custom-date {
@@ -81,6 +106,11 @@ window#waybar {
 #clock {
 	color: #b48ead;
 	margin-right: 10px;
+}
+
+#tray {
+	margin-right: 1em;
+
 }
 
 #cpu {
