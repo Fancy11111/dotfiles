@@ -48,9 +48,6 @@
     },
     "hyprland/window": {
         "format": "{}",
-        "rewrite": {
-            ""
-        }
         "seperate-outputs": true
     },
     "keyboard-state": {
