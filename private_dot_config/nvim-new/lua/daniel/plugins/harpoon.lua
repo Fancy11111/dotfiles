@@ -4,10 +4,10 @@ return {
 		branch = "harpoon2",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
-			"nvim-telescope/telescope.nvim",
+			-- "nvim-telescope/telescope.nvim",
 			"BurntSushi/ripgrep",
-			"nvim-telescope/telescope-file-browser.nvim",
-			"nvim-telescope/telescope-media-files.nvim",
+			-- "nvim-telescope/telescope-file-browser.nvim",
+			-- "nvim-telescope/telescope-media-files.nvim",
 			"ThePrimeagen/git-worktree.nvim",
 		},
 		config = function()

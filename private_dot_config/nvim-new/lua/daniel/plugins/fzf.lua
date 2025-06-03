@@ -178,5 +178,20 @@ return {
 			"<cmd>FzfLua diagnostics_workspace<cr>",
 			desc = "Search files",
 		},
+		{
+			"<leader>gb",
+			"<cmd>FzfLua git_branches<cr>",
+			desc = "Search git branches",
+		},
+		{
+			"<leader>gs",
+			"<cmd>FzfLua git_status<cr>",
+			desc = "Search git status",
+		},
+		{
+			"<leader>gd",
+			"<cmd>FzfLua git_diff<cr>",
+			desc = "Search git diff",
+		},
 	},
 }
