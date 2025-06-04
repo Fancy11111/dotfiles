@@ -1,0 +1,23 @@
+#!/bin/bash
+
+OPTIONS="shutdown\nreboot\nsuspend\nlogout"
+
+CHOICE=$(echo -e "$OPTIONS" | rofi -dmenu -i -l 4 -columns 2 -p "power")
+
+case "$CHOICE" in
+    "shutdown")
+        systemctl poweroff
+        ;;
+    "reboot")
+        systemctl reboot
+        ;;
+    "suspend")
+        systemctl suspend
+        ;;
+    "logout")
+        hyprctl dispatch exit
+        ;;
+    *)
+        # No option selected or invalid option
+        ;;
+esac

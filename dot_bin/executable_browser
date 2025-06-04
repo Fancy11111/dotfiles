@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+BROWSER_DESKTOP=$(xdg-settings get default-web-browser)
+
+if [ -f "/usr/share/applications/${BROWSER_DESKTOP}" ]; then
+    EXECUTABLE=$(grep '^Exec=' "/usr/share/applications/${BROWSER_DESKTOP}" | head -n 1 | cut -d'=' -f2 | awk '{print $1}')
+elif [ -f "~/.local/share/applications/${BROWSER_DESKTOP}" ]; then
+    EXECUTABLE=$(grep '^Exec=' "~/.local/share/applications/${BROWSER_DESKTOP}" | head -n 1 | cut -d'=' -f2 | awk '{print $1}')
+else
+    echo "Could not find .desktop file for ${BROWSER_DESKTOP}"
+    exit 1
+fi
+
+$EXECUTABLE
