@@ -17,10 +17,6 @@ tmux_running=$(pgrep tmux)
 
 if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
     tmux new-session -s $selected_name -c $selected
-    tmux rename-window terminal
-    tmux new-window -n editor
-    tmux new-window -n cli
-    exit 0
 fi
 
 if ! tmux has-session -t=$selected_name 2> /dev/null; then
