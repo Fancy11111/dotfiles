@@ -213,7 +213,10 @@ return {
         ft = java_filetypes,
         opts = function()
           local mason_registry = require 'mason-registry'
-          local lombok_jar = mason_registry.get_package('jdtls'):get_install_path() .. '/lombok.jar'
+          local mason_settings = require 'mason-core.package'
+          mason_settings:get_aliases()
+          -- mason_path
+          local lombok_jar = (vim.fn.expand '$MASON/packages/jdtls') .. '/lombok.jar'
           return {
             -- How to find the root dir for a given filename. The default comes from
             -- lspconfig which provides a function specifically for java projects.
@@ -518,21 +521,12 @@ return {
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
         -- clangd = {},
-        gopls = {},
-        -- pyright = {},
-        -- rust_analyzer = {},
-        -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
-        --
-        -- Some languages (like typescript) have entire language plugins that can be useful:
-        --    https://github.com/pmizio/typescript-tools.nvim
-        --
-        -- But for many setups, the LSP (`tsserver`) will work just fine
-        -- tsserver = {},
-        --
+        gopls = {
+          filetypes = { 'go', 'gomod', 'gosum', 'gotmpl', 'gohtmltmpl', 'gotexttmpl' },
+        },
 
         lua_ls = {
           -- cmd = {...},
-          -- filetypes = { ...},
           -- capabilities = {},
           settings = {
             Lua = {
@@ -543,8 +537,32 @@ return {
               -- diagnostics = { disable = { 'missing-fields' } },
             },
           },
+          filetypes = { 'lua' },
         },
-        ocamllsp = {},
+        ocamllsp = {
+          filetypes = { 'ocaml', 'reason' },
+        },
+        ts_ls = {
+          init_options = {
+            plugins = {
+              {
+                name = '@vue/typescript-plugin',
+                location = '/home/daniel/.nvm/versions/node/v22.15.0/lib/node_modules/@vue/language-server',
+                languages = { 'vue' },
+              },
+            },
+          },
+          filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
+        },
+        volar = {
+          filetypes = { 'vue' },
+        },
+        html = {
+          filetypes = { 'html' },
+        },
+        css = {
+          filetypes = { 'css' },
+        },
       }
 
       -- Extra LSP plugin setup
@@ -626,150 +644,36 @@ return {
         'jdtls',
         'templ',
       })
-      require('mason-tool-installer').setup { ensure_installed = ensure_installed }
+      -- require('mason-tool-installer').setup { ensure_installed = ensure_installed }
+      --
+      vim.lsp.config('*', {
+        capabilities = capabilities,
+      })
 
-      local dump = require('custom.util').dump
-      require('mason-lspconfig').setup {
-        handlers = {
-          function(server_name)
-            if server_name == 'jdtls' then
-              return
-            end
+      for lsp, server in pairs(servers) do
+        vim.lsp.config(lsp, server)
+        vim.lsp.enable(lsp)
+      end
 
-            local server = servers[server_name] or {}
-            -- This handles overriding only values explicitly passed
-            -- by the server configuration above. Useful when disabling
-            -- certain features of an LSP (for example, turning off formatting for tsserver)
-            -- server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-            server.capabilities = require('blink.cmp').get_lsp_capabilities(server.capabilities)
-            require('lspconfig')[server_name].setup(server)
-          end,
-        },
-      }
+      -- require('mason-lspconfig').setup {
+      --   handlers = {
+      --     function(server_name)
+      --       if server_name == 'jdtls' then
+      --         return
+      --       end
+      --
+      --       local server = servers[server_name] or {}
+      --       -- This handles overriding only values explicitly passed
+      --       -- by the server configuration above. Useful when disabling
+      --       -- certain features of an LSP (for example, turning off formatting for tsserver)
+      --       -- server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
+      --       server.capabilities = require('blink.cmp').get_lsp_capabilities(server.capabilities)
+      --       require('lspconfig')[server_name].setup(server)
+      --     end,
+      --   },
+      -- }
     end,
   },
 
   {},
-
-  -- { -- Autocompletion
-  --   'hrsh7th/nvim-cmp',
-  --   event = 'InsertEnter',
-  --   dependencies = {
-  --     -- Snippet Engine & its associated nvim-cmp source
-  --     {
-  --       'L3MON4D3/LuaSnip',
-  --       build = (function()
-  --         -- Build Step is needed for regex support in snippets.
-  --         -- This step is not supported in many windows environments.
-  --         -- Remove the below condition to re-enable on windows.
-  --         if vim.fn.has 'win32' == 1 or vim.fn.executable 'make' == 0 then
-  --           return
-  --         end
-  --         return 'make install_jsregexp'
-  --       end)(),
-  --       dependencies = {
-  --         -- `friendly-snippets` contains a variety of premade snippets.
-  --         --    See the README about individual language/framework/plugin snippets:
-  --         --    https://github.com/rafamadriz/friendly-snippets
-  --         {
-  --           'rafamadriz/friendly-snippets',
-  --           config = function()
-  --             -- require('luasnip.loaders.from_vscode').lazy_load()
-  --           end,
-  --         },
-  --       },
-  --     },
-  --     'saadparwaiz1/cmp_luasnip',
-  --
-  --     -- Adds other completion capabilities.
-  --     --  nvim-cmp does not ship with all sources by default. They are split
-  --     --  into multiple repos for maintenance purposes.
-  --     'hrsh7th/cmp-nvim-lsp',
-  --     'hrsh7th/cmp-path',
-  --   },
-  --   config = function()
-  --     -- See `:help cmp`
-  --     local cmp = require 'cmp'
-  --     local luasnip = require 'luasnip'
-  --     luasnip.config.setup {}
-  --
-  --     cmp.setup {
-  --       snippet = {
-  --         expand = function(args)
-  --           luasnip.lsp_expand(args.body)
-  --         end,
-  --       },
-  --       completion = { completeopt = 'menu,menuone,noinsert' },
-  --
-  --       -- For an understanding of why these mappings were
-  --       -- chosen, you will need to read `:help ins-completion`
-  --       --
-  --       -- No, but seriously. Please read `:help ins-completion`, it is really good!
-  --       mapping = cmp.mapping.preset.insert {
-  --         -- Select the [n]ext item
-  --         ['<C-n>'] = cmp.mapping.select_next_item(),
-  --         -- Select the [p]revious item
-  --         ['<C-p>'] = cmp.mapping.select_prev_item(),
-  --
-  --         -- Scroll the documentation window [b]ack / [f]orward
-  --         ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-  --         ['<C-f>'] = cmp.mapping.scroll_docs(4),
-  --
-  --         -- Accept ([y]es) the completion.
-  --         --  This will auto-import if your LSP supports it.
-  --         --  This will expand snippets if the LSP sent a snippet.
-  --         ['<C-y>'] = cmp.mapping.confirm { select = true },
-  --
-  --         -- If you prefer more traditional completion keymaps,
-  --         -- you can uncomment the following lines
-  --         ['<CR>'] = cmp.mapping.confirm { select = true },
-  --         ['<Tab>'] = cmp.mapping.select_next_item(),
-  --         ['<S-Tab>'] = cmp.mapping.select_prev_item(),
-  --
-  --         -- Manually trigger a completion from nvim-cmp.
-  --         --  Generally you don't need this, because nvim-cmp will display
-  --         --  completions whenever it has completion options available.
-  --         ['<C-Space>'] = cmp.mapping.complete {},
-  --
-  --         -- Think of <c-l> as moving to the right of your snippet expansion.
-  --         --  So if you have a snippet that's like:
-  --         --  function $name($args)
-  --         --    $body
-  --         --  end
-  --         --
-  --         -- <c-l> will move you to the right of each of the expansion locations.
-  --         -- <c-h> is similar, except moving you backwards.
-  --         ['<C-l>'] = cmp.mapping(function()
-  --           if luasnip.expand_or_locally_jumpable() then
-  --             luasnip.expand_or_jump()
-  --           end
-  --         end, { 'i', 's' }),
-  --         ['<C-h>'] = cmp.mapping(function()
-  --           if luasnip.locally_jumpable(-1) then
-  --             luasnip.jump(-1)
-  --           end
-  --         end, { 'i', 's' }),
-  --
-  --         -- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
-  --         --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
-  --       },
-  --       sources = {
-  --         {
-  --           name = 'lazydev',
-  --           -- set group index to 0 to skip loading LuaLS completions as lazydev recommends it
-  --           group_index = 0,
-  --         },
-  --         { name = 'nvim_lsp' },
-  --         { name = 'luasnip' },
-  --         { name = 'path' },
-  --       },
-  --     }
-  --     cmp.setup.filetype({ 'sql' }, {
-  --       sources = {
-  --         { name = 'vim-dadbod-completion' },
-  --         { name = 'buffer' },
-  --       },
-  --     })
-  --   end,
-  -- },
 }
