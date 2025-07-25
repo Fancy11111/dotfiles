@@ -7,7 +7,7 @@ return {
 				clear_suggestion = "<C-->",
 				accept_word = "<C-ö>",
 			},
-			ignore_filetypes = {}, -- or { "cpp", }
+			ignore_filetypes = { "tex" }, -- or { "cpp", }
 			color = {
 				-- suggestion_color = '#ffffff',
 				-- cterm = 244,
