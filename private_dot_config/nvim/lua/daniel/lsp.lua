@@ -10,6 +10,7 @@ local servers = {
 	"bashls",
 	"html",
 	"cssls",
+	"pyright",
 }
 
 vim.lsp.config("*", {
