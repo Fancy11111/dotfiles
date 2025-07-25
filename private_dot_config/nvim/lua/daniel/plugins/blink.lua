@@ -1,11 +1,24 @@
 return {
 	{
+		"micangl/cmp-vimtex",
+		ft = "tex",
+		config = function()
+			require("cmp_vimtex").setup({})
+		end,
+	},
+	{
+		"saghen/blink.compat",
+		version = "*",
+		opts = { impersonate_nvim_cmp = false },
+	},
+
+	{
 		"saghen/blink.cmp",
 		-- optional: provides snippets for the snippet source
 		dependencies = {
 			"rafamadriz/friendly-snippets",
 			"onsails/lspkind.nvim",
-
+			"micangl/cmp-vimtex",
 		},
 
 		version = "1.*",
@@ -136,7 +149,7 @@ return {
 			},
 
 			sources = {
-				default = { "lsp", "path", "snippets", "buffer" },
+				default = { "lsp", "path", "snippets", "buffer", "vimtex" },
 				providers = {
 					supermaven = {
 						name = "supermaven", -- IMPORTANT: use the same name as you would for nvim-cmp
@@ -144,6 +157,14 @@ return {
 
 						-- all blink.cmp source config options work as normal:
 						score_offset = -3,
+					},
+					snippets = {
+						score_offset = 1,
+					},
+					vimtex = {
+						name = "vimtex",
+						module = "blink.compat.source",
+						score_offset = 3,
 					},
 				},
 			},
