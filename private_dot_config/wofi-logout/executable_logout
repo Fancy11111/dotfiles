@@ -1,3 +1,3 @@
 #!/bin/bash 
 
-/usr/bin/hyprctl exit
+/usr/bin/hyprctl dispatch exit
