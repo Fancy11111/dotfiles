@@ -3,15 +3,18 @@ local capabilities = utils.lsp_capabilities()
 
 local servers = {
 	"lua_ls",
-	"volar",
+	-- "volar", deprecated
+	"basedpyright",
 	"jdtls",
 	"tinymist",
 	"tailwindcss",
 	"bashls",
 	"html",
 	"cssls",
-	"pyright",
-	"ts_ls",
+	"basedpyright",
+	-- "pyright",
+	"vtsls", -- vscode ts server
+	-- "ts_ls", -- replaced by vtsls
 	"zls",
 }
 
@@ -25,20 +28,52 @@ vim.lsp.config("*", {
 -- 	},
 -- })
 
-vim.lsp.config("ts_ls", {
-	-- init_options = {
-	-- 	plugins = {
-	-- 		{
-	-- 			name = "@vue/typescript-plugin",
-	-- 			location = "/home/daniel/.nvm/versions/node/v22.15.0/lib/node_modules/@vue/typescript-plugin",
-	-- 			languages = { "javascript", "typescript", "vue" },
-	-- 		},
-	-- 	},
-	-- },
-	filetypes = {
-		"javascript",
-		"typescript",
-		"vue",
+-- vim.lsp.config("ts_ls", {
+-- 	-- init_options = {
+-- 	-- 	plugins = {
+-- 	-- 		{
+-- 	-- 			name = "@vue/typescript-plugin",
+-- 	-- 			location = "/home/daniel/.nvm/versions/node/v22.15.0/lib/node_modules/@vue/typescript-plugin",
+-- 	-- 			languages = { "javascript", "typescript", "vue" },
+-- 	-- 		},
+-- 	-- 	},
+-- 	-- },
+-- 	filetypes = {
+-- 		"javascript",
+-- 		"typescript",
+-- 		"vue",
+-- 	},
+-- })
+
+local vue_language_server_path = vim.fn.expand("$MASON/packages")
+	.. "/vue-language-server"
+	.. "/node_modules/@vue/language-server"
+local vue_plugin = {
+	name = "@vue/typescript-plugin",
+	location = vue_language_server_path,
+	languages = { "vue" },
+	configNamespace = "typescript",
+}
+vim.lsp.config("vtsls", {
+	settings = {
+		vtsls = {
+			tsserver = {
+				globalPlugins = {
+					vue_plugin,
+				},
+			},
+		},
+	},
+	filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
+})
+
+vim.lsp.config("basedpyright", {
+	settings = {
+		basedpyright = {
+			analysis = {
+				typeCheckingMode = "basic",
+			},
+		},
 	},
 })
 
