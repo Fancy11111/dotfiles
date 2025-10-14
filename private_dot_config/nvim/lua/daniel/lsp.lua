@@ -13,6 +13,7 @@ local servers = {
 	"cssls",
 	"basedpyright",
 	-- "pyright",
+	"rust_analyzer",
 	"vtsls", -- vscode ts server
 	-- "ts_ls", -- replaced by vtsls
 	"zls",
@@ -48,12 +49,14 @@ vim.lsp.config("*", {
 local vue_language_server_path = vim.fn.expand("$MASON/packages")
 	.. "/vue-language-server"
 	.. "/node_modules/@vue/language-server"
+
 local vue_plugin = {
 	name = "@vue/typescript-plugin",
 	location = vue_language_server_path,
 	languages = { "vue" },
 	configNamespace = "typescript",
 }
+
 vim.lsp.config("vtsls", {
 	settings = {
 		vtsls = {
@@ -129,6 +132,19 @@ vim.lsp.config("tailwindcss", {
 		"vue",
 		"svelte",
 		"templ",
+	},
+})
+
+vim.lsp.config("rust_analyzer", {
+	settings = {
+		["rust-analyzer"] = {
+			diagnostics = {
+				enable = true,
+			},
+			check = {
+				command = "clippy",
+			},
+		},
 	},
 })
 
