@@ -48,7 +48,7 @@ return {
 					{ section = "startup" },
 				},
 			},
-			image = { enabled = true },
+			image = { enabled = false },
 			indent = {
 				enabled = true,
 				animate = {
