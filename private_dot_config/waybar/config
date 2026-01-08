@@ -4,7 +4,7 @@
     // "width": 1280, // Waybar width
     "spacing": 4, // Gaps between modules (4px)
     // Choose the order of the modules
-    "modules-left": ["hyprland/workspaces", "custom/media"],
+    "modules-left": ["hyprland/workspaces", "custom/updates"],
     "modules-center": ["hyprland/window"],
     "modules-right": ["pulseaudio", "network", "cpu", "memory", "temperature", "backlight", "battery", "clock", "tray", "custom/power"],
     "hyprland/workspaces": {
@@ -29,6 +29,7 @@
     },
     "hyprland/window": {
             "format": "{}",
+            "hide-empty-text": true,
             "separate-outputs": true
     },
     "keyboard-state": {
@@ -120,7 +121,7 @@
             "car": "",
             "default": ["", "", ""]
         },
-        "on-click": "pavucontrol"
+        "on-click": "pwvucontrol"
     },
     "custom/media": {
         "format": "{icon} {}",
@@ -137,6 +138,13 @@
     "custom/power": {
         "format": "󰐥",
         "on-click": "~/.bin/launch-rofi-exit"
+    },
+    "custom/updates": {
+        "format": "{}",
+        "return-type": "text",
+        "hide-empty-text": false,
+        "interval": "60",
+        "exec": "$HOME/.bin/check-updates"
     }
 }
 
