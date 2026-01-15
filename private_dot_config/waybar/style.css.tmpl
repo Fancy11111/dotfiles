@@ -2,6 +2,11 @@
 	border: none;
 	/* border-radius: 20px; */
 	font-family: monospace;
+	{{- if eq .chezmoi.hostname "martinaise" }}
+	font-size: 18px;
+	{{- else }}
+	font-size: 16px;
+	{{- end }}
 	min-height: 0;
 }
 
@@ -113,6 +118,7 @@ window#waybar {
 /**/
 #custom-date,
 #custom-updates,
+#custom-spotify,
 #clock,
 #battery,
 #pulseaudio,
@@ -159,6 +165,12 @@ window#waybar {
 #clock {
 	color: #b48ead;
 	margin-right: 10px;
+}
+
+#custom-spotify {
+	color: #a1bb6c;;
+	margin-right: 10px;
+	margin-left: 10px;
 }
 
 #tray {

@@ -6,7 +6,7 @@
     // Choose the order of the modules
     "modules-left": ["hyprland/workspaces", "custom/updates"],
     "modules-center": ["hyprland/window"],
-    "modules-right": ["pulseaudio", "network", "cpu", "memory", "temperature", "backlight", "battery", "clock", "tray", "custom/power"],
+    "modules-right": ["custom/spotify", "pulseaudio", "network", "cpu", "memory", "temperature", "backlight", "battery", "clock", "tray", "custom/power"],
     "hyprland/workspaces": {
         "format": "{icon}",
 		"active-only": false,
@@ -145,6 +145,14 @@
         "hide-empty-text": false,
         "interval": "60",
         "exec": "$HOME/.bin/check-updates"
+    },
+    "custom/spotify": {
+        "format": "{}",
+        "return-type": "text",
+        "hide-empty-text": false,
+        "exec": "~/.bin/spotify-song-info",
+        "interval": "20",
+        "on-click": "spotify-launcher"
     }
 }
 

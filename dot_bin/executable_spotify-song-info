@@ -1,0 +1,10 @@
+res=$(hyprctl clients -j | jq 'map(select(.initialClass == "spotify")) | .[] | .title' | sed -e "s/^\"//" -e "s/\"$//")
+
+if [ ${#res} -gt 30 ]; then
+    res="$(echo $res | cut -c 1-30)"
+    # then append "..."
+    res="$res..."
+
+fi
+
+echo $res
