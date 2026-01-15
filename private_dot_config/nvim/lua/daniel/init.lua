@@ -8,7 +8,7 @@ require("daniel.autocmds")
 require("daniel.keymaps")
 require("daniel.wsl")
 
-vim.cmd.colorscheme("tokyonight-night")
+vim.cmd.colorscheme("teide-dimmed")
 
 -- You can configure highlights by doing something like:
 vim.cmd.hi("Comment gui=none")

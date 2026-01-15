@@ -22,9 +22,6 @@ export GOPATH=$(go env GOPATH)
 export PATH=$GOPATH/bin:$PATH
 export PNPM_HOME="$HOME/.local/share/pnpm"
 export PATH="$PNPM_HOME":$PATH
-export PATH="/opt/NuSMV-2.7.1/bin":$PATH
-
-export NuSMV_LIBARY_PATH="/opt/NuSMV-2.7.1/share/"
 
 # Dir for zinit + plugins
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
@@ -93,10 +90,10 @@ zstyle ':fzf-tab:complet:__zoxide_z:*' fzf-preview 'eza -a --long --color $realp
 
 # aliases
 alias ls="eza -a --long --git --color=always"
+alias firefox="zen-browser"
 # alias nvim="neovim"
 alias nvim-config="cd ~/.config/nvim && nvim ."
-alias xmonad-config="cd ~/.config/xmonad && nvim ."
-alias fish-config="cd ~/.config/fish && nvim ."
+alias hypr-config="cd ~/.config/hypr && nvim ."
 alias fish-config="cd ~/.config/fish && nvim ."
 alias vue-language-server="vls"
 alias susp="systemctl suspend"
