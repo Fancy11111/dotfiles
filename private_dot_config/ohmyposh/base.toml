@@ -16,7 +16,6 @@ final_space = true
   type = 'prompt'
   alignment = 'left'
   newline = true
-
   [[blocks.segments]]
     template = '{{ .Path }}'
     foreground = 'blue'
@@ -27,6 +26,40 @@ final_space = true
     [blocks.segments.properties]
       cache_duration = 'none'
       style = 'full'
+
+  [[blocks.segments]]
+    template = ' @ '
+    foreground = 'white'
+    background = 'transparent'
+    type = 'path'
+    style = 'plain'
+
+    [blocks.segments.properties]
+      cache_duration = '1d'
+      style = 'full'
+
+  [[blocks.segments]]
+    template = '({{ .HostName }})'
+    foreground = '#e6bce6'
+    background = 'transparent'
+    type = 'path'
+    style = 'plain'
+
+    [blocks.segments.properties]
+      cache_duration = '1d'
+      style = 'full'
+
+   [[blocks.segments]]
+    template = ' {{ if ne .Code 0 }} | Exit: {{ .Code  }}{{ end }} '
+    foreground = '#e66'
+    background = 'transparent'
+    type = 'path'
+    style = 'plain'
+
+    [blocks.segments.properties]
+      cache_duration = 'none'
+      style = 'full'
+
 
   [[blocks.segments]]
     template = ' {{ .HEAD }}{{ if or (.Working.Changed) (.Staging.Changed) }}*{{ end }} <cyan>{{ if gt .Behind 0 }}⇣{{ end }}{{ if gt .Ahead 0 }}⇡{{ end }}</>'
