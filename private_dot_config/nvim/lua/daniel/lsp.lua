@@ -12,39 +12,14 @@ local servers = {
 	"html",
 	"cssls",
 	"basedpyright",
-	-- "pyright",
 	"rust_analyzer",
 	"vtsls", -- vscode ts server
-	-- "ts_ls", -- replaced by vtsls
 	"zls",
 }
 
 vim.lsp.config("*", {
 	capabilities = capabilities,
 })
-
--- vim.diagnostic.config({
--- 	virtual_lines = {
--- 		current_line = true,
--- 	},
--- })
-
--- vim.lsp.config("ts_ls", {
--- 	-- init_options = {
--- 	-- 	plugins = {
--- 	-- 		{
--- 	-- 			name = "@vue/typescript-plugin",
--- 	-- 			location = "/home/daniel/.nvm/versions/node/v22.15.0/lib/node_modules/@vue/typescript-plugin",
--- 	-- 			languages = { "javascript", "typescript", "vue" },
--- 	-- 		},
--- 	-- 	},
--- 	-- },
--- 	filetypes = {
--- 		"javascript",
--- 		"typescript",
--- 		"vue",
--- 	},
--- })
 
 local vue_language_server_path = vim.fn.expand("$MASON/packages")
 	.. "/vue-language-server"

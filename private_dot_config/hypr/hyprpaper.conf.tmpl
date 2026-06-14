@@ -7,8 +7,11 @@ wallpaper = HDMI-A-1,~/Pictures/desktop/sunny.png
 {{- end }}
 
 {{- if eq .chezmoi.hostname "revachol" }}
-preload = ~/wallpapers/thought-cabinet.jpg
-wallpaper = ,~/wallpapers/thought-cabinet.jpg
+wallpaper {
+    monitor = 
+    path = ~/wallpapers/Beach-Dark.png
+    fit_mode = contain
+}
 {{- end }}
 
 # wallpaper = DP-1,~/Pictures/desktop/misty.jpg
