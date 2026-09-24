@@ -37,6 +37,14 @@ M.lsp_on_attach = function(client, bufnr)
 	-- or a suggestion from your LSP for this to activate.
 	map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction", { "n", "x" })
 
+	-- Execute a code action, usually your cursor needs to be on top of an error
+	-- or a suggestion from your LSP for this to activate.
+	map("<leader>clt", function()
+		vim.lsp.codelens.enable(not vim.lsp.codelens.is_enabled())
+	end, "[C]ode [L]ense [T]oggle", { "n", "x" })
+
+	map("<leader>clr", vim.lsp.codelens.run, "[C]ode [L]ense [R]un", { "n", "x" })
+
 	-- WARN: This is not Goto Definition, this is Goto Declaration.
 	--  For example, in C this would take you to the header.
 	map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
@@ -47,7 +55,7 @@ M.lsp_on_attach = function(client, bufnr)
 	--
 	-- When you move your cursor, the highlights will be cleared (the second autocommand).
 	-- local client = vim.lsp.get_client_by_id(event.data.client_id)
-	if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
+	if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
 		local highlight_augroup = vim.api.nvim_create_augroup("kickstart-lsp-highlight", { clear = false })
 		vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
 			buffer = bufnr,
@@ -74,7 +82,7 @@ M.lsp_on_attach = function(client, bufnr)
 	-- code, if the language server you are using supports them
 	--
 	-- This may be unwanted, since they displace some of your code
-	if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
+	if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
 		map("<leader>th", function()
 			vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }))
 		end, "[T]oggle Inlay [H]ints")

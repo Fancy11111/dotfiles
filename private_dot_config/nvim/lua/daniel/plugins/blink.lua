@@ -8,8 +8,9 @@ return {
 	},
 	{
 		"saghen/blink.compat",
-		version = "*",
-		opts = { impersonate_nvim_cmp = false },
+		version = "2.*",
+		lazy = true,
+		opts = {},
 	},
 
 	{
